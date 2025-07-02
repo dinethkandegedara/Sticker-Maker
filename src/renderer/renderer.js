@@ -8,13 +8,18 @@ class StickerMaker {
     initializeElements() {
         console.log('Initializing elements...');
         this.loadFileBtn = document.getElementById('loadFileBtn');
+        this.printBtn = document.getElementById('printBtn');
         this.stickersContainer = document.getElementById('stickersContainer');
         
         console.log('Load button found:', !!this.loadFileBtn);
+        console.log('Print button found:', !!this.printBtn);
         console.log('Stickers container found:', !!this.stickersContainer);
         
         if (!this.loadFileBtn) {
             console.error('loadFileBtn element not found!');
+        }
+        if (!this.printBtn) {
+            console.error('printBtn element not found!');
         }
         if (!this.stickersContainer) {
             console.error('stickersContainer element not found!');
@@ -25,6 +30,11 @@ class StickerMaker {
         this.loadFileBtn.addEventListener('click', () => {
             console.log('Load Excel button clicked');
             this.loadExcelFile();
+        });
+        
+        this.printBtn.addEventListener('click', () => {
+            console.log('Print button clicked');
+            this.printStickers();
         });
     }
     
@@ -86,6 +96,10 @@ class StickerMaker {
             const stickerDiv = this.createStickerElement(row, index);
             this.stickersContainer.appendChild(stickerDiv);
         });
+        
+        // Enable the print button since we now have stickers
+        this.printBtn.disabled = false;
+        console.log('Print button enabled');
     }
     
     createStickerElement(rowData, index) {
@@ -233,8 +247,10 @@ class StickerMaker {
                 </div>
             `;
             this.loadFileBtn.disabled = true;
+            this.printBtn.disabled = true;
         } else {
             this.loadFileBtn.disabled = false;
+            // Don't enable print button here - it will be enabled in createStickers
         }
     }
     
@@ -244,6 +260,20 @@ class StickerMaker {
                 <strong>Error:</strong> ${message}
             </div>
         `;
+        this.printBtn.disabled = true;
+    }
+    
+    printStickers() {
+        // Check if there are stickers to print
+        if (!this.data || this.data.length === 0) {
+            alert('No stickers to print. Please load an Excel file first.');
+            return;
+        }
+        
+        console.log(`Printing ${this.data.length} stickers...`);
+        
+        // Call the browser's print function
+        window.print();
     }
 }
 
