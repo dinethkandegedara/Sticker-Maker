@@ -18,24 +18,24 @@ body {
     padding: 10mm;
 }
 
-/* Sticker Container - Better preview layout */
+/* Sticker Container - Better organized layout for larger stickers */
 .stickers-container {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-    gap: 20px;
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    gap: 30px;
     margin-top: 10mm;
     max-width: 100%;
-    padding: 20px;
+    padding: 30px;
     justify-content: center;
 }
 
-/* Individual Textile Roll Sticker Styles - Larger for screen preview */
+/* Individual Textile Roll Sticker Styles - Large fonts for fabric roll readability */
 .sticker {
-    width: 350px;  /* Larger for better screen viewing */
-    height: 175px; /* Proportional to print size */
-    border: 2px solid #000;
-    background: white;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    width: 360px;  /* Standardized width */
+    height: 260px; /* Balanced height */
+    border: 1px solid #000000;
+    background: #ffffff;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     display: flex;
     flex-direction: column;
     page-break-inside: avoid;
@@ -43,8 +43,8 @@ body {
     overflow: hidden;
     padding: 0;
     margin: 0;
-    font-family: Arial, sans-serif;
-    border-radius: 4px; /* Slight rounding for screen */
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    border-radius: 0;
     transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
@@ -53,160 +53,94 @@ body {
     box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
 }
 
-/* Main content area (white section) - Better proportions for screen */
+/* Main content area - Simple and readable */
 .sticker-content {
     flex: 1;
     display: flex;
     flex-direction: column;
-    padding: 8px;
-    background: white;
+    padding: 12px; /* Balanced padding */
+    background: #ffffff;
+    overflow: hidden;
 }
 
-/* Header section with company info */
-.sticker-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    margin-bottom: 4px;
-    padding-bottom: 4px;
-    border-bottom: 1px solid #000;
-}
-
-.company-name {
-    font-size: 14px;
-    font-weight: bold;
-    color: #000;
-}
-
-.plant-info {
-    font-size: 11px;
-    color: #000;
-    text-align: right;
-}
-
-/* Main data table - Better sizing for screen */
-.sticker-table {
+/* Plain data table - Balanced fonts for fabric roll readability */
+.sticker-data-table {
     flex: 1;
     display: grid;
-    grid-template-columns: repeat(6, 1fr);
-    border: 1px solid #000;
-    font-size: 10px;
-    line-height: 1.2;
-    margin-bottom: 6px;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2px; /* Consistent small gap */
+    font-size: 14px; /* Standard size for better consistency */
+    line-height: 1.4;
+    border: 1px solid #000000;
+    border-radius: 0;
+    overflow: hidden;
 }
 
-.table-cell {
-    border-right: 1px solid #000;
-    border-bottom: 1px solid #000;
-    padding: 3px;
+.data-row {
+    display: contents;
+}
+
+.data-cell {
+    padding: 6px 8px; /* Balanced padding */
     display: flex;
     flex-direction: column;
     justify-content: center;
+    border-bottom: 1px solid #000000;
     background: white;
-    min-height: 25px;
+    min-height: 38px; /* Consistent height */
 }
 
-.table-cell:nth-child(6n) {
-    border-right: none;
+.data-cell:nth-child(3n-2) {
+    background: #ffffff;
+    border-right: 1px solid #000000;
 }
 
-.table-cell.header {
-    background: #f5f5f5;
-    font-weight: bold;
-    text-align: center;
-    font-size: 8px;
-    writing-mode: vertical-rl;
-    text-orientation: mixed;
-    padding: 2px;
+.data-cell:nth-child(3n-1) {
+    background: white;
+    border-right: 1px solid #000000;
 }
 
-.table-cell.data {
-    font-weight: bold;
-    text-align: center;
-    font-size: 10px;
+.data-cell:nth-child(3n) {
+    background: #ffffff;
 }
 
-/* Bottom section with QR code and additional info */
-.sticker-bottom {
-    display: grid;
-    grid-template-columns: 60px 1fr 50px;
-    gap: 6px;
-    padding: 6px 8px;
-    border-top: 1px solid #000;
-    height: 45px;
+.data-label {
+    font-weight: 600;
+    font-size: 10px; /* Standardized smaller size */
+    color: #000000;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 3px;
 }
 
-.qr-section {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+.data-value {
+    font-size: 12px; /* Standardized balanced size */
+    color: #000000;
+    font-weight: 600;
+    word-break: break-word;
+    line-height: 1.3;
 }
 
-.qr-code {
-    width: 35px;
-    height: 35px;
-    border: 1px solid #000;
+/* Highlight important fields - Balanced fonts */
+.data-cell.important .data-label {
+    color: #000000;
+    font-size: 10px; /* Same size, just bolder */
+    font-weight: 700;
 }
 
-.qr-number {
-    font-size: 8px;
-    font-weight: bold;
-    margin-top: 2px;
-    text-align: center;
+.data-cell.important .data-value {
+    color: #000000;
+    font-weight: 700;
+    font-size: 14px; /* Slightly larger but balanced */
 }
 
-.lot-section {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    border: 1px solid #000;
-    font-size: 9px;
-}
-
-.lot-cell {
-    border-right: 1px solid #000;
-    border-bottom: 1px solid #000;
-    padding: 3px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-}
-
-.lot-cell:nth-child(2n) {
-    border-right: none;
-}
-
-.lot-cell:nth-child(3), .lot-cell:nth-child(4) {
-    border-bottom: none;
-}
-
-.lot-label {
-    font-weight: bold;
-    font-size: 7px;
-    margin-bottom: 1px;
-}
-
-.lot-value {
-    font-weight: bold;
-    font-size: 9px;
-}
-
-.date-section {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    border: 1px solid #000;
-    font-size: 10px;
-    font-weight: bold;
-}
-
-/* Red footer bar */
+/* Footer bar - black for text-only design */
 .sticker-footer {
-    height: 12px;
-    background: #d32f2f;
+    height: 8px; /* Thinner footer bar */
+    background: #000000;
     width: 100%;
+    box-shadow: none;
+    margin-top: auto;
 }
 
 /* Text rotation helper */
@@ -322,7 +256,7 @@ body {
 @media print {
     * {
         -webkit-print-color-adjust: exact !important;
-        print-color-adjust: exact !
+        print-color-adjust: exact !important;
         box-sizing: border-box !important;
     }
     
@@ -374,17 +308,110 @@ body {
     }
     
     .sticker {
-        width: 96mm !important; /* Adjusted to fit 2 per row with gaps */
-        height: 72mm !important; /* Adjusted height */
-        border: 1px solid #000 !important; /* Thinner border */
+        width: 95mm !important; /* Adjusted to fit 2 per row with gaps */
+        height: 70mm !important; /* Adjusted height for better proportions */
+        border: 1px solid #000000 !important; /* Black border */
         background: white !important;
         box-shadow: none !important;
         margin: 0 !important;
         padding: 0 !important;
         break-inside: avoid !important;
         page-break-inside: avoid !important;
-        font-family: Arial, sans-serif !important;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif !important;
         overflow: hidden !important;
+        border-radius: 0 !important;
+    }
+    
+    .sticker-header-title {
+        background: #000000 !important;
+        color: white !important;
+        margin: -1mm -1mm 1.5mm -1mm !important;
+        padding: 1.5mm 2mm !important;
+        border-radius: 0 !important;
+        box-shadow: none !important;
+        display: flex !important;
+        justify-content: space-between !important;
+        align-items: center !important;
+    }
+    
+    .header-text {
+        font-size: 9px !important;
+        font-weight: 600 !important;
+    }
+    
+    .header-serial {
+        font-size: 9px !important;
+        background: transparent !important;
+        color: white !important;
+        padding: 0.5mm 1mm !important;
+        border-radius: 0 !important;
+        border: 0.5px solid #ffffff !important;
+    }
+    
+    .sticker-content {
+        background: white !important;
+        padding: 3mm !important;
+        overflow: hidden !important;
+    }
+    
+    .sticker-data-table {
+        font-size: 8px !important;
+        border: 1px solid #000000 !important;
+        border-radius: 0 !important;
+        box-shadow: none !important;
+        gap: 0 !important;
+        grid-template-columns: repeat(3, 1fr) !important;
+    }
+    
+    .data-cell {
+        min-height: 6mm !important;
+        padding: 1mm 1.5mm !important;
+        border-bottom: 0.5px solid #000000 !important;
+    }
+    
+    .data-cell:nth-child(3n-2),
+    .data-cell:nth-child(3n-1),
+    .data-cell:nth-child(3n) {
+        background: #ffffff !important;
+        border-right: 0.5px solid #000000 !important;
+    }
+    
+    .data-cell:nth-child(3n) {
+        border-right: none !important;
+    }
+    
+    .data-label {
+        font-size: 6px !important;
+        margin-bottom: 1mm !important;
+        color: #000000 !important;
+        font-weight: 600 !important;
+    }
+    
+    .data-value {
+        font-size: 8px !important;
+        color: #000000 !important;
+        line-height: 1.2 !important;
+        font-weight: 600 !important;
+    }
+    
+    .data-cell.important .data-label {
+        color: #000000 !important;
+        font-size: 6px !important;
+        font-weight: 700 !important;
+    }
+    
+    .data-cell.important .data-value {
+        color: #000000 !important;
+        font-weight: 700 !important;
+        font-size: 9px !important; /* Slightly larger but balanced */
+        text-decoration: underline !important;
+    }
+    
+    .sticker-footer {
+        background: #000000 !important;
+        height: 3mm !important;
+        box-shadow: none !important;
+        margin-top: auto !important;
     }
     
     /* Force page break after every 4 stickers (2x2 grid) */
@@ -392,89 +419,15 @@ body {
         page-break-after: always !important;
     }
     
-    .sticker-content {
-        background: white !important;
-        padding: 1.5mm !important; /* Reduced padding */
-        height: calc(72mm - 6mm) !important; /* Total height minus footer */
-    }
-    
-    .sticker-footer {
-        background: #d32f2f !important;
-        height: 6mm !important;
-    }
-    
-    .company-name {
-        font-size: 9px !important;
-        color: #000 !important;
-    }
-    
-    .plant-info {
-        font-size: 7px !important;
-        color: #000 !important;
-    }
-    
-    .sticker-table {
-        font-size: 6px !important; /* Smaller font */
-        gap: 0 !important;
-    }
-    
-    .table-cell {
-        border-right: 1px solid #000 !important;
-        border-bottom: 1px solid #000 !important;
-        background: white !important;
-        font-size: 6px !important;
-        padding: 0.5mm !important; /* Reduced padding */
-        line-height: 1.1 !important;
-    }
-    
-    .table-cell.header {
-        background: #f5f5f5 !important;
-        font-size: 5px !important;
-    }
-    
-    .table-cell.data {
-        font-size: 7px !important;
-    }
-    
-    .sticker-bottom {
-        height: 14mm !important; /* Reduced height */
-        padding: 1mm !important;
-    }
-    
-    .qr-code {
-        width: 12mm !important; /* Smaller QR code */
-        height: 12mm !important;
-        border: 1px solid #000 !important;
-    }
-    
-    .qr-number {
-        font-size: 5px !important;
-    }
-    
-    .lot-cell {
-        border-right: 1px solid #000 !important;
-        border-bottom: 1px solid #000 !important;
-        font-size: 6px !important;
-        padding: 0.5mm !important;
-    }
-    
-    .lot-label {
-        font-size: 5px !important;
-    }
-    
-    .lot-value {
-        font-size: 7px !important;
-    }
-    
-    .date-section {
-        border: 1px solid #000 !important;
-        font-size: 7px !important;
-    }
-    
     /* Hide any loading or error messages */
     .loading,
     .error-message,
     .no-data {
+        display: none !important;
+    }
+    
+    /* Hide status bar */
+    .status-bar {
         display: none !important;
     }
 }
@@ -530,41 +483,19 @@ body {
     }
     
     .sticker-content {
-        padding: 6px;
+        padding: 4px;
     }
     
-    .company-name {
-        font-size: 12px;
-    }
-    
-    .plant-info {
-        font-size: 10px;
-    }
-    
-    .table-cell {
-        font-size: 8px;
-        padding: 2px;
-        min-height: 20px;
-    }
-    
-    .table-cell.data {
-        font-size: 9px;
-    }
-    
-    .sticker-bottom {
-        height: 35px;
-        grid-template-columns: 45px 1fr 40px;
-        gap: 4px;
-        padding: 4px 6px;
-    }
-    
-    .qr-code {
-        width: 25px;
-        height: 25px;
-    }
-    
-    .qr-number {
+    .data-label {
         font-size: 6px;
+    }
+    
+    .data-value {
+        font-size: 7px;
+    }
+    
+    .data-row {
+        min-height: 14px;
     }
 }
 
@@ -602,7 +533,7 @@ body {
 }
 
 .load-btn {
-    background: linear-gradient(135deg, #4CAF50, #45a049);
+    background: #000000;
     color: white;
     border: none;
     padding: 12px 24px;
@@ -701,7 +632,7 @@ body {
     width: 40px;
     height: 40px;
     border: 4px solid #f3f3f3;
-    border-top: 4px solid #667eea;
+    border-top: 4px solid #000000;
     border-radius: 50%;
     animation: spin 1s linear infinite;
     margin: 0 auto 15px;
@@ -713,12 +644,12 @@ body {
 }
 
 .error-message {
-    background: #fed7d7;
-    color: #c53030;
+    background: #ffffff;
+    color: #000000;
     padding: 15px 20px;
     border-radius: 8px;
     margin-bottom: 20px;
-    border-left: 4px solid #e53e3e;
+    border-left: 4px solid #000000;
 }
 
 .no-data {
@@ -759,7 +690,7 @@ body {
 }
 
 #dataTable th {
-    background: linear-gradient(135deg, #667eea, #764ba2);
+    background: #000000;
     color: white;
     padding: 15px 12px;
     text-align: left;
@@ -852,7 +783,7 @@ body {
 }
 
 .print-btn {
-    background: linear-gradient(135deg, #2563eb, #1d4ed8);
+    background: #000000;
     color: white;
     border: none;
     padding: 12px 24px;
@@ -882,7 +813,7 @@ body {
 }
 
 .preview-btn {
-    background: linear-gradient(135deg, #8b5cf6, #7c3aed);
+    background: #000000;
     color: white;
     border: none;
     padding: 12px 24px;
@@ -913,7 +844,7 @@ body {
 
 /* Print Preview Mode */
 .print-preview {
-    background: #f8f9fa !important;
+    background: #ffffff !important;
     padding: 20px !important;
 }
 
@@ -929,8 +860,8 @@ body {
 }
 
 .print-preview .header {
-    background: #e9ecef !important;
-    color: #495057 !important;
+    background: #ffffff !important;
+    color: #000000 !important;
     margin-bottom: 20px !important;
     border-radius: 6px !important;
 }
@@ -960,71 +891,33 @@ body {
 
 .print-preview .sticker:hover {
     transform: none !important;
-}
-
-.print-preview .sticker-content {
-    padding: 1.5mm !important;
-    height: calc(72mm - 6mm) !important;
-}
-
-.print-preview .company-name {
-    font-size: 9px !important;
-}
-
-.print-preview .plant-info {
-    font-size: 7px !important;
-}
-
-.print-preview .table-cell {
-    font-size: 6px !important;
-    padding: 0.5mm !important;
-    min-height: auto !important;
-}
-
-.print-preview .table-cell.header {
-    font-size: 5px !important;
-}
-
-.print-preview .table-cell.data {
-    font-size: 7px !important;
-}
-
-.print-preview .sticker-bottom {
-    height: 14mm !important;
-    padding: 1mm !important;
-    grid-template-columns: 25mm 1fr 20mm !important;
-    gap: 1mm !important;
-}
-
-.print-preview .qr-code {
-    width: 12mm !important;
-    height: 12mm !important;
-}
-
-.print-preview .qr-number {
-    font-size: 5px !important;
-}
-
-.print-preview .lot-cell {
-    font-size: 6px !important;
-    padding: 0.5mm !important;
-}
-
-.print-preview .lot-label {
-    font-size: 5px !important;
-}
-
-.print-preview .lot-value {
-    font-size: 7px !important;
-}
-
-.print-preview .date-section {
-    font-size: 7px !important;
-}
-
-.print-preview .sticker-footer {
-    height: 6mm !important;
-}
+}    .print-preview .sticker-content {
+        padding: 4px !important;
+        height: calc(72mm - 6mm) !important;
+        overflow: hidden !important;
+    }
+    
+    .print-preview .sticker-data-table {
+        font-size: 5px !important;
+    }
+    
+    .print-preview .data-row {
+        min-height: 3mm !important;
+    }
+    
+    .print-preview .data-label {
+        font-size: 4px !important;
+        padding: 0.5mm !important;
+    }
+    
+    .print-preview .data-value {
+        font-size: 5px !important;
+        padding: 0.5mm !important;
+    }
+    
+    .print-preview .sticker-footer {
+        height: 6mm !important;
+    }
 
 /* Page indicator for print preview */
 .page-indicator {
@@ -1075,7 +968,7 @@ body {
 
 /* Status Bar Styles */
 .status-bar {
-    background: #28a745;
+    background: #000000;
     color: white;
     padding: 12px 20px;
     position: fixed;
@@ -1116,4 +1009,53 @@ body {
 /* Adjust container bottom padding when status bar is visible */
 body:not(.print-preview) .container {
     padding-bottom: 80px;
+}
+
+/* Text-only sticker header - Much larger fonts for fabric roll readability */
+.sticker-header-title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 10px; /* Balanced padding */
+    background: #000000;
+    color: white;
+    margin: -16px -16px 8px -16px; /* Adjusted for new padding */
+    border-radius: 0;
+    box-shadow: none;
+    border-bottom: 2px solid #000000;
+}
+
+.header-text {
+    font-size: 14px; /* Balanced size */
+    font-weight: 700;
+    letter-spacing: 0.5px;
+}
+
+.header-serial {
+    font-size: 14px; /* Balanced size */
+    background: transparent;
+    padding: 2px 8px;
+    border-radius: 0;
+    border: 1px solid #ffffff;
+    font-weight: 600;
+}
+
+/* Print instructions and accessibility improvements */
+.print-instructions {
+    margin-top: 10px;
+    padding: 8px;
+    background: #f8f8f8;
+    border-left:.3px solid #000;
+    font-size: 0.9rem;
+}
+
+/* Improve keyboard accessibility */
+button:focus {
+    outline: 2px solid #000;
+    outline-offset: 2px;
+}
+
+/* Ensure text is readable */
+.info-box {
+    line-height: 1.4;
 }

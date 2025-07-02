@@ -1,16 +1,16 @@
-# Excel Fabric Roll Viewer
+# Sticker Maker
 
-A desktop application built with Node.js and Electron to view and search through Excel files containing fabric roll data.
+A desktop application built with Node.js and Electron to generate print-ready, text-only stickers for fabric rolls from Excel data.
 
 ## Features
 
-- 📁 Load Excel files (.xlsx, .xls, .csv)
-- 📊 Display data in a clean, responsive table
-- 🔍 Real-time search across all columns
-- 🏷️ Column-specific filtering
-- 📱 Responsive design for different screen sizes
-- 🎨 Modern, beautiful UI with gradient themes
-- ⚡ Fast performance with large datasets
+- Load Excel files (.xlsx, .xls, .csv)
+- Generate clean, text-only stickers with all fields visible
+- Print 4 stickers per A4 page
+- High contrast black text on white background
+- Standardized font sizes for maximum readability
+- Preview before printing
+- Support for all 19 standard textile data fields
 
 ## Supported Excel Columns
 
@@ -75,19 +75,20 @@ npm run build
    - Run `npm start` or `npm run dev`
 
 2. **Load an Excel file**
-   - Click the "📁 Load Excel File" button
+   - Click the "Load Excel File" button
    - Select your Excel file (.xlsx, .xls, or .csv)
-   - The data will be displayed in a table
+   - Stickers will be generated for each row in the Excel file
 
-3. **Search and Filter**
-   - Use the search box to find specific records
-   - Use the column filter dropdown for more specific filtering
-   - All searches are case-insensitive and work in real-time
+3. **Preview and Print**
+   - Click "Print Preview" to see how stickers will look when printed
+   - Click "Print Stickers" to open your system's print dialog
+   - Use A4 paper, portrait orientation, and print at actual size (100% scale)
+   - Each A4 page will fit 4 stickers (2×2)
 
 ## File Structure
 
 ```
-excel-fabric-viewer/
+sticker-maker/
 ├── src/
 │   ├── main.js              # Electron main process
 │   ├── preload.js           # Preload script for security
@@ -95,9 +96,19 @@ excel-fabric-viewer/
 │       ├── index.html       # Main UI
 │       ├── styles.css       # Styling
 │       └── renderer.js      # Frontend logic
+├── teejay-sample-data.xlsx  # Sample Excel data
 ├── package.json             # Dependencies and scripts
-└── README.md               # This file
+└── README.md                # This file
 ```
+
+## Sticker Design
+
+- **Layout**: Clean 3-column grid showing all 19 fields
+- **Text**: Black text on white background with no colors or icons
+- **Fonts**: Standardized sizes (10px for labels, 12-14px for values)
+- **Header**: Simple black bar with title and serial number
+- **Print Layout**: 4 stickers per A4 page (2×2 grid)
+- **Fields**: All fields from Excel clearly labeled and visible
 
 ## Technologies Used
 

@@ -1,7 +1,7 @@
 {
-  "name": "excel-fabric-viewer",
+  "name": "sticker-maker",
   "version": "1.0.0",
-  "description": "An Electron app to view Excel fabric roll data",
+  "description": "An Electron app for creating fabric roll stickers from Excel data",
   "main": "src/main.js",
   "scripts": {
     "start": "electron .",
@@ -20,8 +20,8 @@
     "xlsx": "^0.18.5"
   },
   "build": {
-    "appId": "com.example.excel-fabric-viewer",
-    "productName": "Excel Fabric Viewer",
+    "appId": "com.example.sticker-maker",
+    "productName": "Sticker Maker",
     "directories": {
       "output": "dist"
     },

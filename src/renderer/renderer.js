@@ -112,9 +112,6 @@ class StickerMaker {
             this.stickersContainer.appendChild(stickerDiv);
         });
         
-        // Generate QR codes after DOM insertion
-        this.generateQRCodes();
-        
         // Enable the print and preview buttons since we now have stickers
         this.printBtn.disabled = false;
         this.previewBtn.disabled = false;
@@ -124,32 +121,7 @@ class StickerMaker {
         this.updateStatusBar();
     }
     
-    async generateQRCodes() {
-        // Import QRCode dynamically (since it's a CommonJS module)
-        const QRCode = window.require('qrcode');
-        
-        const qrElements = document.querySelectorAll('.qr-code[data-qr-data]');
-        
-        for (const qrElement of qrElements) {
-            try {
-                const qrData = qrElement.dataset.qrData;
-                const qrCodeDataURL = await QRCode.toDataURL(qrData, {
-                    width: 60,
-                    height: 60,
-                    margin: 1,
-                    color: {
-                        dark: '#000000',
-                        light: '#FFFFFF'
-                    }
-                });
-                
-                qrElement.innerHTML = `<img src="${qrCodeDataURL}" style="width: 100%; height: 100%; object-fit: contain;" alt="QR Code">`;
-            } catch (error) {
-                console.error('Error generating QR code:', error);
-                qrElement.innerHTML = '⚠️';
-            }
-        }
-    }
+    // QR code generation removed as per requirements for text-only stickers
     
     createStickerElement(rowData, index) {
         // Create main sticker div
@@ -160,137 +132,74 @@ class StickerMaker {
         const content = document.createElement('div');
         content.className = 'sticker-content';
         
-        // Create header
+        // Create header with title - text only, no icons
         const header = document.createElement('div');
-        header.className = 'sticker-header';
+        header.className = 'sticker-header-title';
+        header.innerHTML = `
+            <div class="header-text">TEXTILE ROLL DATA</div>
+            <div class="header-serial">${rowData['Serial #'] || 'N/A'}</div>
+        `;
         
-        const companyName = document.createElement('div');
-        companyName.className = 'company-name';
-        companyName.textContent = 'TKMAXX';
-        
-        const plantInfo = document.createElement('div');
-        plantInfo.className = 'plant-info';
-        plantInfo.textContent = 'Plant\n3029';
-        plantInfo.style.whiteSpace = 'pre-line';
-        
-        header.appendChild(companyName);
-        header.appendChild(plantInfo);
-        
-        // Create main data table
+        // Create clean 3-column data grid
         const table = document.createElement('div');
-        table.className = 'sticker-table';
+        table.className = 'sticker-data-table';
         
-        // Table headers and data mapped to your Excel columns
-        const tableData = [
-            { header: 'Style', value: this.extractStyle(rowData['Serial #']) || 'TKMAXX' },
-            { header: 'Material', value: rowData['Material'] || rowData['Batch'] || `1000037185` },
-            { header: 'Item Description', value: rowData['Material Description'] || rowData['Item'] || 'FAB_SKY-LRIB-001_ZIN_41' },
-            { header: 'Com & Composition', value: rowData['Fabric Type'] || 'RCI COTTON 95 ELASTANE 5' },
-            { header: 'PO Number', value: rowData['PO Number'] || `4500095153` },
-            { header: 'Supplier', value: rowData['Vendor Name'] || 'Sky Textiles India' },
-            { header: 'Sales Order', value: rowData['Sales Order'] || '' },
-            { header: 'Invoice No.', value: rowData['Invoice Number'] || `EXP/2025-26/7` },
-            { header: 'Vendor Batch', value: rowData['Batch'] || `24118521` },
-            { header: 'Shade', value: rowData['Shade Group'] || 'Z' },
-            { header: 'Roll No.', value: rowData['Roll Number'] || `4` },
-            { header: 'Bin No.', value: rowData['Storage Bin'] || `A603` },
-            { header: 'Qty', value: this.formatQuantity(rowData['GRN QTY(M/YD)']) },
-            { header: 'Received Date', value: this.formatDate(rowData['Inhouse date']) },
-            { header: 'Brand', value: rowData['Brand'] || 'ELESSE' },
-            { header: 'LOT', value: rowData['LOT No'] || '' }
+        // All Excel columns in a more logical order - text only for maximum readability
+        const allColumns = [
+            { field: 'Serial #' },
+            { field: 'Vendor Name' },
+            { field: 'Batch' },
+            { field: 'Roll Number' },
+            { field: 'GRN QTY(M/YD)' },
+            { field: 'Fabric Type' },
+            { field: 'Material' },
+            { field: 'Material Description' },
+            { field: 'Inhouse date' },
+            { field: 'PO Number' },
+            { field: 'Invoice Number' },
+            { field: 'Brand' },
+            { field: 'LOT No' },
+            { field: 'UOM' },
+            { field: 'Item' },
+            { field: 'Shade Group' },
+            { field: 'Actual Width' },
+            { field: 'Roll Weight' },
+            { field: 'Storage Bin' }
         ];
         
-        // Add header row
-        tableData.forEach(item => {
-            const headerCell = document.createElement('div');
-            headerCell.className = 'table-cell header';
-            headerCell.textContent = item.header;
-            table.appendChild(headerCell);
-        });
+        // Important fields that should be highlighted with larger fonts - focused on key identifiers
+        const importantFields = ['Serial #', 'Roll Number', 'Batch', 'Vendor Name'];
         
-        // Add data row
-        tableData.forEach(item => {
-            const dataCell = document.createElement('div');
-            dataCell.className = 'table-cell data';
-            // Ensure we don't show empty values
-            dataCell.textContent = item.value || '';
-            table.appendChild(dataCell);
-        });
-        
-        // Create bottom section
-        const bottom = document.createElement('div');
-        bottom.className = 'sticker-bottom';
-        
-        // QR Code section
-        const qrSection = document.createElement('div');
-        qrSection.className = 'qr-section';
-        
-        const qrCode = document.createElement('div');
-        qrCode.className = 'qr-code';
-        
-        // Generate QR code data - using batch number or creating one similar to your format
-        const qrData = rowData['Batch'] || `1100000000001955638`;
-        
-        // Create QR code placeholder (we'll generate the actual QR code after DOM insertion)
-        qrCode.innerHTML = '📱'; // Placeholder until QR code is generated
-        qrCode.dataset.qrData = qrData;
-        
-        const qrNumber = document.createElement('div');
-        qrNumber.className = 'qr-number';
-        qrNumber.textContent = qrData;
-        
-        qrSection.appendChild(qrCode);
-        qrSection.appendChild(qrNumber);
-        
-        // LOT section
-        const lotSection = document.createElement('div');
-        lotSection.className = 'lot-section';
-        
-        const lotItems = [
-            { label: 'LOT', value: rowData['LOT No'] || '' },
-            { label: 'ELESSE', value: 'ELESSE' },
-            { label: 'LOT TKM', value: rowData['LOT TKM'] || '' },
-            { label: '', value: '' }
-        ];
-        
-        lotItems.forEach(item => {
-            const lotCell = document.createElement('div');
-            lotCell.className = 'lot-cell';
+        // Create cells for each field (3 columns layout)
+        allColumns.forEach(column => {
+            const cell = document.createElement('div');
+            cell.className = 'data-cell';
             
-            if (item.label) {
-                const label = document.createElement('div');
-                label.className = 'lot-label';
-                label.textContent = item.label;
-                lotCell.appendChild(label);
+            // Highlight important fields with bolder text
+            if (importantFields.includes(column.field)) {
+                cell.classList.add('important');
             }
             
-            if (item.value) {
-                const value = document.createElement('div');
-                value.className = 'lot-value';
-                value.textContent = item.value;
-                lotCell.appendChild(value);
-            }
+            const label = document.createElement('div');
+            label.className = 'data-label';
+            label.textContent = column.field;
             
-            lotSection.appendChild(lotCell);
+            const value = document.createElement('div');
+            value.className = 'data-value';
+            value.textContent = rowData[column.field] || '-';
+            
+            cell.appendChild(label);
+            cell.appendChild(value);
+            table.appendChild(cell);
         });
         
-        // Date section
-        const dateSection = document.createElement('div');
-        dateSection.className = 'date-section';
-        dateSection.textContent = this.formatDate(rowData['Inhouse date']);
-        
-        bottom.appendChild(qrSection);
-        bottom.appendChild(lotSection);
-        bottom.appendChild(dateSection);
-        
-        // Create red footer
+        // Create black footer
         const footer = document.createElement('div');
         footer.className = 'sticker-footer';
         
         // Assemble the sticker
         content.appendChild(header);
         content.appendChild(table);
-        content.appendChild(bottom);
         
         sticker.appendChild(content);
         sticker.appendChild(footer);
@@ -313,44 +222,11 @@ class StickerMaker {
         }
     }
     
-    createFieldElement(label, value, isColor = false) {
-        const field = document.createElement('div');
-        field.className = 'sticker-field';
-        
-        const fieldLabel = document.createElement('div');
-        fieldLabel.className = 'field-label';
-        fieldLabel.textContent = label;
-        
-        const fieldValue = document.createElement('div');
-        fieldValue.className = 'field-value';
-        fieldValue.textContent = value;
-        
-        // Add color indicator for color fields
-        if (isColor && value && value !== 'N/A') {
-            const colorIndicator = document.createElement('span');
-            colorIndicator.className = 'color-indicator';
-            colorIndicator.style.backgroundColor = this.getColorValue(value);
-            fieldValue.appendChild(colorIndicator);
-        }
-        
-        field.appendChild(fieldLabel);
-        field.appendChild(fieldValue);
-        
-        return field;
-    }
+    // Field element creation moved to the sticker data table approach
+    // This legacy method is removed as per the new text-only sticker design
     
-    createAdditionalField(rowData) {
-        // Find any additional columns that aren't the main ones
-        const mainColumns = ['ROLL NO', 'Fabric type', 'length', 'whegnt', 'color', 'manufacturer'];
-        const additionalColumns = Object.keys(rowData).filter(key => !mainColumns.includes(key));
-        
-        if (additionalColumns.length > 0) {
-            const key = additionalColumns[0];
-            return this.createFieldElement(key, rowData[key] || 'N/A');
-        }
-        
-        return null;
-    }
+    // Legacy method for handling additional fields - no longer needed with the 
+    // comprehensive approach that shows all 19 fields
     
     formatValue(value, unit) {
         if (value === null || value === undefined || value === '') {
@@ -365,25 +241,7 @@ class StickerMaker {
         return `${value} ${unit}`;
     }
     
-    getColorValue(colorName) {
-        const colorMap = {
-            'red': '#e53e3e',
-            'blue': '#3182ce',
-            'green': '#38a169',
-            'yellow': '#d69e2e',
-            'black': '#2d3748',
-            'white': '#f7fafc',
-            'pink': '#d53f8c',
-            'purple': '#805ad5',
-            'orange': '#dd6b20',
-            'brown': '#8b4513',
-            'gray': '#718096',
-            'grey': '#718096'
-        };
-        
-        const lowerColor = String(colorName).toLowerCase();
-        return colorMap[lowerColor] || '#4a5568';
-    }
+    // Color handling removed as per requirements for black & white stickers
     
     showLoading(show) {
         if (show) {
@@ -432,8 +290,8 @@ class StickerMaker {
         if (this.isPreviewMode) {
             // Enter print preview mode
             document.body.classList.add('print-preview');
-            this.previewBtn.innerHTML = '👁️ Exit Preview';
-            this.previewBtn.style.background = 'linear-gradient(135deg, #ef4444, #dc2626)';
+            this.previewBtn.innerHTML = 'Exit Preview';
+            this.previewBtn.style.background = '#000000';
             
             // Add page indicators
             this.addPageIndicators();
@@ -443,8 +301,8 @@ class StickerMaker {
         } else {
             // Exit print preview mode
             document.body.classList.remove('print-preview');
-            this.previewBtn.innerHTML = '👁️ Print Preview';
-            this.previewBtn.style.background = 'linear-gradient(135deg, #8b5cf6, #7c3aed)';
+            this.previewBtn.innerHTML = 'Print Preview';
+            this.previewBtn.style.background = '#000000';
             
             // Remove page indicators
             this.removePageIndicators();
@@ -487,8 +345,8 @@ class StickerMaker {
         const stickerCount = this.data.length;
         const pageCount = Math.ceil(stickerCount / 4); // 4 stickers per page
         
-        this.statusText.textContent = `✅ ${stickerCount} sticker${stickerCount !== 1 ? 's' : ''} loaded and ready to print`;
-        this.stickerCount.textContent = `📄 ${pageCount} page${pageCount !== 1 ? 's' : ''} (4 stickers per page)`;
+        this.statusText.textContent = `${stickerCount} sticker${stickerCount !== 1 ? 's' : ''} loaded and ready to print`;
+        this.stickerCount.textContent = `${pageCount} page${pageCount !== 1 ? 's' : ''} (4 stickers per page)`;
         
         this.statusBar.classList.remove('hidden');
     }
@@ -497,37 +355,8 @@ class StickerMaker {
         this.statusBar.classList.add('hidden');
     }
     
-    extractStyle(serialNumber) {
-        // Extract style from serial number like "TJ 01.07.2025-Roll 19" -> "TKMAXX"
-        if (!serialNumber) return 'TKMAXX';
-        return 'TKMAXX'; // Based on your sticker image
-    }
-    
-    formatDate(dateStr) {
-        if (!dateStr) return 'May 22, 2025';
-        
-        try {
-            // Handle dates like "07.01.2025" 
-            if (dateStr.includes('.')) {
-                const [day, month, year] = dateStr.split('.');
-                const date = new Date(year, month - 1, day);
-                return date.toLocaleDateString('en-US', { 
-                    year: 'numeric', 
-                    month: 'short', 
-                    day: 'numeric' 
-                });
-            }
-            
-            const date = new Date(dateStr);
-            return date.toLocaleDateString('en-US', { 
-                year: 'numeric', 
-                month: 'short', 
-                day: 'numeric' 
-            });
-        } catch (e) {
-            return dateStr;
-        }
-    }
+    // No longer needed to extract style information
+    // We're showing the raw data without transformation as per requirements
 }
 
 // Initialize the application when DOM is loaded
