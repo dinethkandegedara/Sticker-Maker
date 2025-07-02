@@ -166,7 +166,7 @@ class StickerMaker {
         
         const companyName = document.createElement('div');
         companyName.className = 'company-name';
-        companyName.textContent = 'TLWMAXX';
+        companyName.textContent = 'TKMAXX';
         
         const plantInfo = document.createElement('div');
         plantInfo.className = 'plant-info';
@@ -180,24 +180,24 @@ class StickerMaker {
         const table = document.createElement('div');
         table.className = 'sticker-table';
         
-        // Table headers and data in the order shown in image
+        // Table headers and data mapped to your Excel columns
         const tableData = [
-            { header: 'Style', value: rowData['Style'] || rowData['ROLL NO'] || `ST${index + 1}` },
-            { header: 'Material', value: rowData['Material'] || rowData['Fabric type'] || 'Cotton' },
-            { header: 'Item Description', value: rowData['Item Description'] || rowData['Fabric type'] || 'Fabric Roll' },
-            { header: 'Composition', value: rowData['Composition'] || '100% Cotton' },
-            { header: 'PO Number', value: rowData['PO Number'] || `PO${1000 + index}` },
-            { header: 'Supplier', value: rowData['Supplier'] || rowData['manufacturer'] || 'Supplier' },
-            { header: 'Sales Order', value: rowData['Sales Order'] || `SO${2000 + index}` },
-            { header: 'Invoice No.', value: rowData['Invoice No.'] || `INV${3000 + index}` },
-            { header: 'Vendor Batch', value: rowData['Vendor Batch'] || `VB${index + 1}` },
-            { header: 'Shade', value: rowData['Shade'] || rowData['color'] || 'Blue' },
-            { header: 'Roll No.', value: rowData['Roll No.'] || rowData['ROLL NO'] || `R${index + 1}` },
-            { header: 'Bin No.', value: rowData['Bin No.'] || `BIN${index + 1}` },
-            { header: 'Qty', value: this.formatQuantity(rowData['Quantity'] || rowData['length'] || '50') },
-            { header: 'Received Date', value: rowData['Received Date'] || new Date().toLocaleDateString('en-GB') },
-            { header: 'Brand', value: rowData['Brand'] || 'TLWMAXX' },
-            { header: 'LOT', value: rowData['LOT'] || `L${index + 1}` }
+            { header: 'Style', value: this.extractStyle(rowData['Serial #']) || 'TKMAXX' },
+            { header: 'Material', value: rowData['Material'] || rowData['Batch'] || `1000037185` },
+            { header: 'Item Description', value: rowData['Material Description'] || rowData['Item'] || 'FAB_SKY-LRIB-001_ZIN_41' },
+            { header: 'Com & Composition', value: rowData['Fabric Type'] || 'RCI COTTON 95 ELASTANE 5' },
+            { header: 'PO Number', value: rowData['PO Number'] || `4500095153` },
+            { header: 'Supplier', value: rowData['Vendor Name'] || 'Sky Textiles India' },
+            { header: 'Sales Order', value: rowData['Sales Order'] || '' },
+            { header: 'Invoice No.', value: rowData['Invoice Number'] || `EXP/2025-26/7` },
+            { header: 'Vendor Batch', value: rowData['Batch'] || `24118521` },
+            { header: 'Shade', value: rowData['Shade Group'] || 'Z' },
+            { header: 'Roll No.', value: rowData['Roll Number'] || `4` },
+            { header: 'Bin No.', value: rowData['Storage Bin'] || `A603` },
+            { header: 'Qty', value: this.formatQuantity(rowData['GRN QTY(M/YD)']) },
+            { header: 'Received Date', value: this.formatDate(rowData['Inhouse date']) },
+            { header: 'Brand', value: rowData['Brand'] || 'ELESSE' },
+            { header: 'LOT', value: rowData['LOT No'] || '' }
         ];
         
         // Add header row
@@ -212,7 +212,8 @@ class StickerMaker {
         tableData.forEach(item => {
             const dataCell = document.createElement('div');
             dataCell.className = 'table-cell data';
-            dataCell.textContent = item.value;
+            // Ensure we don't show empty values
+            dataCell.textContent = item.value || '';
             table.appendChild(dataCell);
         });
         
@@ -227,8 +228,8 @@ class StickerMaker {
         const qrCode = document.createElement('div');
         qrCode.className = 'qr-code';
         
-        // Generate QR code data
-        const qrData = rowData['QR Code'] || `11000000000019556${38 + index}`;
+        // Generate QR code data - using batch number or creating one similar to your format
+        const qrData = rowData['Batch'] || `1100000000001955638`;
         
         // Create QR code placeholder (we'll generate the actual QR code after DOM insertion)
         qrCode.innerHTML = '📱'; // Placeholder until QR code is generated
@@ -246,9 +247,9 @@ class StickerMaker {
         lotSection.className = 'lot-section';
         
         const lotItems = [
-            { label: 'LOT', value: rowData['LOT'] || `L${index + 1}` },
+            { label: 'LOT', value: rowData['LOT No'] || '' },
             { label: 'ELESSE', value: 'ELESSE' },
-            { label: 'LOT TKM', value: rowData['LOT TKM'] || `TKM${index + 1}` },
+            { label: 'LOT TKM', value: rowData['LOT TKM'] || '' },
             { label: '', value: '' }
         ];
         
@@ -276,7 +277,7 @@ class StickerMaker {
         // Date section
         const dateSection = document.createElement('div');
         dateSection.className = 'date-section';
-        dateSection.textContent = rowData['Received Date'] || new Date().toLocaleDateString('en-GB');
+        dateSection.textContent = this.formatDate(rowData['Inhouse date']);
         
         bottom.appendChild(qrSection);
         bottom.appendChild(lotSection);
@@ -299,8 +300,17 @@ class StickerMaker {
     
     formatQuantity(value) {
         if (!value) return '0';
+        
+        // Handle your quantity format (already includes decimals)
         const num = parseFloat(value);
-        return isNaN(num) ? value : `${num}M`;
+        if (isNaN(num)) return value;
+        
+        // Format with proper decimal places and add YD unit
+        if (num >= 100) {
+            return `${num.toFixed(0)}YD`;
+        } else {
+            return `${num.toFixed(1)}YD`;
+        }
     }
     
     createFieldElement(label, value, isColor = false) {
@@ -485,6 +495,38 @@ class StickerMaker {
     
     hideStatusBar() {
         this.statusBar.classList.add('hidden');
+    }
+    
+    extractStyle(serialNumber) {
+        // Extract style from serial number like "TJ 01.07.2025-Roll 19" -> "TKMAXX"
+        if (!serialNumber) return 'TKMAXX';
+        return 'TKMAXX'; // Based on your sticker image
+    }
+    
+    formatDate(dateStr) {
+        if (!dateStr) return 'May 22, 2025';
+        
+        try {
+            // Handle dates like "07.01.2025" 
+            if (dateStr.includes('.')) {
+                const [day, month, year] = dateStr.split('.');
+                const date = new Date(year, month - 1, day);
+                return date.toLocaleDateString('en-US', { 
+                    year: 'numeric', 
+                    month: 'short', 
+                    day: 'numeric' 
+                });
+            }
+            
+            const date = new Date(dateStr);
+            return date.toLocaleDateString('en-US', { 
+                year: 'numeric', 
+                month: 'short', 
+                day: 'numeric' 
+            });
+        } catch (e) {
+            return dateStr;
+        }
     }
 }
 

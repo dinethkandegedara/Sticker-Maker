@@ -14,15 +14,32 @@ A desktop application built with Node.js and Electron to view and search through
 
 ## Supported Excel Columns
 
-The application is optimized for fabric roll data with these columns:
-- **ROLL NO** - Roll number/identifier
-- **Fabric type** - Type of fabric
-- **length** - Length in meters
-- **whegnt** - Weight in kilograms  
-- **color** - Fabric color
-- **manufacturer** - Manufacturer name
+The application is optimized for textile roll sticker data with these columns:
 
-*Note: The application will work with any Excel file structure, but these columns get special formatting.*
+### Required Columns:
+- **Serial #** - Serial number (e.g., "TJ 01.07.2025-Roll 19")
+- **Inhouse date** - Date in DD.MM.YYYY format (e.g., "07.01.2025")
+- **PO Number** - Purchase order number (e.g., "FOC")
+- **Vendor Name** - Supplier name (e.g., "teejay")
+- **Invoice Number** - Invoice number (e.g., "90102255")
+- **Batch** - Batch number (used for QR code - e.g., "8125888")
+- **Roll Number** - Roll number (e.g., "1", "4", "30")
+- **GRN QTY(M/YD)** - Quantity in meters/yards (e.g., "20", "100.701")
+
+### Optional Columns:
+- **Brand** - Brand name (defaults to "ELESSE")
+- **LOT No** - LOT number
+- **Material** - Material code
+- **Material Description** - Description of material
+- **UOM** - Unit of measure
+- **Item** - Item code
+- **Fabric Type** - Type of fabric
+- **Shade Group** - Color/shade
+- **Actual Width** - Width specification
+- **Roll Weight** - Weight of roll
+- **Storage Bin** - Storage location
+
+*Sample file: `teejay-sample-data.xlsx` included with correct format.*
 
 ## Installation
 
