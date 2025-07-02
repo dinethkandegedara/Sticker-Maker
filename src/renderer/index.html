@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sticker Maker</title>
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="modern-styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
     <div class="container">
@@ -12,13 +14,13 @@
             <h1>Sticker Maker</h1>
             <div class="button-group">
                 <button id="loadFileBtn" class="load-btn">
-                    Load Excel File
+                    <i class="fas fa-file-excel"></i> Load Excel File
                 </button>
                 <button id="previewBtn" class="preview-btn" disabled>
-                    Print Preview
+                    <i class="fas fa-eye"></i> Print Preview
                 </button>
                 <button id="printBtn" class="print-btn" disabled>
-                    Print Stickers
+                    <i class="fas fa-print"></i> Print Stickers
                 </button>
             </div>
         </header>
@@ -29,23 +31,23 @@
                 <h3>No Data Loaded</h3>
                 <p>Click "Load Excel File" to get started</p>
                 <div class="info-box">
-                    <h4>Text-Only Sticker Maker:</h4>
+                    <h4>Fabric Roll Sticker Maker</h4>
                     <ul>
                         <li>Load your Excel file - all 19 columns clearly displayed</li>
-                        <li>Use Print Preview to see the simple 3-column layout</li>
-                        <li>Print professional stickers (4 per A4 page)</li>
+                        <li>Use Print Preview to see the 3-column layout (6 stickers per page)</li>
+                        <li>Print professional black & white stickers perfect for textile rolls</li>
                     </ul>
-                    <p><small>Features: Large fonts, high contrast, maximum readability for fabric rolls</small></p>
-                    <p class="print-instructions"><strong>Print instructions:</strong> Use A4 paper, actual size (no scaling), portrait orientation</p>
+                    <p><small>Features: Optimized for readability with large fonts, high contrast, and clean design</small></p>
+                    <p class="print-instructions"><strong>Print instructions:</strong> Use A4 paper, landscape orientation, actual size (no scaling)</p>
                 </div>
             </div>
         </div>
 
         <div id="statusBar" class="status-bar hidden">
             <div class="status-content">
-                <span id="statusText"></span>
+                <span id="statusText"><i class="fas fa-check-circle"></i> </span>
                 <div class="status-actions">
-                    <span id="stickerCount"></span>
+                    <span id="stickerCount"><i class="fas fa-file-alt"></i> </span>
                 </div>
             </div>
         </div>

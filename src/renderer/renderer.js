@@ -282,16 +282,33 @@ class StickerMaker {
         this.previewBtn.disabled = true;
         this.printBtn.disabled = true;
         this.hideStatusBar();
+        
+        // Add a subtle shake animation to indicate error
+        this.stickersContainer.classList.add('shake');
+        setTimeout(() => {
+            this.stickersContainer.classList.remove('shake');
+        }, 500);
     }
     
     printStickers() {
         // Check if there are stickers to print
         if (!this.data || this.data.length === 0) {
-            alert('No stickers to print. Please load an Excel file first.');
+            this.showTemporaryStatus('No stickers to print. Please load an Excel file first.');
             return;
         }
         
         console.log(`Printing ${this.data.length} stickers...`);
+        
+        // Show print preparation animation
+        const overlay = document.createElement('div');
+        overlay.className = 'print-overlay';
+        overlay.innerHTML = `
+            <div class="print-animation">
+                <i class="fas fa-print"></i>
+                <p>Preparing to print...</p>
+            </div>
+        `;
+        document.body.appendChild(overlay);
         
         // Add a small delay to ensure CSS is applied before printing
         setTimeout(() => {
@@ -308,9 +325,12 @@ class StickerMaker {
             document.body.offsetHeight; // Force reflow
             document.body.style.display = '';
             
+            // Remove overlay before printing
+            overlay.remove();
+            
             // Call the browser's print function
             window.print();
-        }, 300);
+        }, 800);
     }
     
     togglePrintPreview() {
@@ -319,23 +339,48 @@ class StickerMaker {
         if (this.isPreviewMode) {
             // Enter print preview mode
             document.body.classList.add('print-preview');
-            this.previewBtn.innerHTML = 'Exit Preview';
-            this.previewBtn.style.background = '#000000';
+            this.previewBtn.innerHTML = '<i class="fas fa-times"></i> Exit Preview';
             
             // Add page indicators
             this.addPageIndicators();
             
-            // Scroll to top
-            window.scrollTo(0, 0);
+            // Scroll to top with smooth animation
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+            
+            // Notify with a status update
+            this.showTemporaryStatus('Preview mode enabled - this is how your stickers will print');
         } else {
             // Exit print preview mode
             document.body.classList.remove('print-preview');
-            this.previewBtn.innerHTML = 'Print Preview';
-            this.previewBtn.style.background = '#000000';
+            this.previewBtn.innerHTML = '<i class="fas fa-eye"></i> Print Preview';
             
             // Remove page indicators
             this.removePageIndicators();
+            
+            // Notify with status update
+            this.showTemporaryStatus('Regular view restored');
         }
+    }
+    
+    showTemporaryStatus(message) {
+        const tempStatus = document.createElement('div');
+        tempStatus.className = 'temp-status';
+        tempStatus.innerHTML = `<i class="fas fa-info-circle"></i> ${message}`;
+        document.body.appendChild(tempStatus);
+        
+        setTimeout(() => {
+            tempStatus.classList.add('show');
+        }, 10);
+        
+        setTimeout(() => {
+            tempStatus.classList.remove('show');
+            setTimeout(() => {
+                tempStatus.remove();
+            }, 300);
+        }, 2000);
     }
     
     addPageIndicators() {
@@ -374,10 +419,16 @@ class StickerMaker {
         const stickersPerPage = 6; // 6 stickers per page (3×2 grid)
         const pageCount = Math.ceil(stickerCount / stickersPerPage);
         
-        this.statusText.textContent = `${stickerCount} sticker${stickerCount !== 1 ? 's' : ''} loaded and ready to print`;
-        this.stickerCount.textContent = `${pageCount} page${pageCount !== 1 ? 's' : ''} (${stickersPerPage} stickers per page)`;
+        this.statusText.innerHTML = `<i class="fas fa-check-circle"></i> ${stickerCount} sticker${stickerCount !== 1 ? 's' : ''} loaded and ready to print`;
+        this.stickerCount.innerHTML = `<i class="fas fa-file-alt"></i> ${pageCount} page${pageCount !== 1 ? 's' : ''} (${stickersPerPage} stickers per page)`;
         
+        // Add an animation when showing the status bar
+        this.statusBar.style.transform = 'translateY(100%)';
         this.statusBar.classList.remove('hidden');
+        
+        setTimeout(() => {
+            this.statusBar.style.transform = 'translateY(0)';
+        }, 50);
         
         // We no longer need to add spacers here since we're using page wrappers
     }
