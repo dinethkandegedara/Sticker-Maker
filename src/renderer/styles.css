@@ -27,10 +27,10 @@ body {
     margin-top: 10mm;
 }
 
-/* Individual Sticker Styles - A4 Based Dimensions */
+/* Individual Sticker Styles - 4 per A4 page layout */
 .sticker {
-    width: 148.5mm;  /* Half of A4 length (297mm / 2) */
-    height: 74.25mm; /* Quarter of A4 height (297mm / 4) */
+    width: 180px;    /* Approximately 90mm for screen display */
+    height: 240px;   /* Approximately 133.5mm for screen display */
     border: 2px solid #333;
     border-radius: 8px;
     padding: 8mm;
@@ -146,64 +146,206 @@ body {
     background: linear-gradient(135deg, #ffffff 0%, #faf5ff 100%);
 }
 
-/* Print-specific styles */
+/* Print-specific styles for A4 - 4 stickers per page */
 @media print {
+    * {
+        -webkit-print-color-adjust: exact !important;
+        color-adjust: exact !important;
+        print-color-adjust: exact !important;
+    }
+    
+    @page {
+        size: A4;
+        margin: 10mm;
+    }
+    
     body {
-        background: white;
+        background: white !important;
         font-size: 12pt;
+        margin: 0;
+        padding: 0;
     }
     
     .container {
         max-width: none;
+        width: 210mm;
+        height: 297mm;
         margin: 0;
-        padding: 0;
+        padding: 10mm;
         box-shadow: none;
+        background: white;
     }
     
     .header {
-        display: none; /* Hide header when printing */
+        display: none !important; /* Hide header when printing */
+    }
+    
+    .button-group {
+        display: none !important; /* Hide buttons when printing */
     }
     
     .stickers-container {
-        margin-top: 0;
-        gap: 3mm;
+        display: grid;
+        grid-template-columns: 1fr 1fr; /* 2 columns for 2×2 layout */
+        grid-template-rows: 1fr 1fr;    /* 2 rows for 2×2 layout */
+        gap: 10mm;
+        width: 190mm;  /* A4 width minus margins */
+        height: 277mm; /* A4 height minus margins */
+        margin: 0;
+        padding: 0;
     }
     
     .sticker {
-        width: 148.5mm;
-        height: 74.25mm;
-        border: 2px solid #000;
+        width: 90mm;   /* (190mm - 10mm gap) / 2 = 90mm per sticker */
+        height: 133.5mm; /* (277mm - 10mm gap) / 2 = 133.5mm per sticker */
+        border: 2px solid #000 !important;
+        border-radius: 8px;
+        padding: 6mm;
+        background: white !important;
         box-shadow: none;
         margin: 0;
-        break-inside: avoid;
-        page-break-inside: avoid;
+        break-inside: avoid !important;
+        page-break-inside: avoid !important;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        overflow: hidden;
     }
     
-    .load-btn {
-        display: none;
+    /* Force page break after every 4 stickers */
+    .sticker:nth-child(4n) {
+        page-break-after: always !important;
     }
     
-    /* Ensure exactly 2 stickers per row on A4 */
-    .sticker:nth-child(2n+1) {
-        margin-right: 5mm;
+    /* Ensure no orphaned stickers */
+    .sticker:nth-child(4n-3) {
+        page-break-before: avoid !important;
     }
     
-    /* Force page break after every 8 stickers (4 rows) */
-    .sticker:nth-child(8n) {
-        page-break-after: always;
+    .sticker-header {
+        margin-bottom: 3mm;
+        padding-bottom: 2mm;
+        border-bottom: 1px solid #333;
+    }
+    
+    .roll-number {
+        font-size: 16px !important;
+        font-weight: bold;
+        color: #000 !important;
+        background: #f0f0f0 !important;
+        padding: 3px 6px;
+        border-radius: 4px;
+    }
+    
+    .fabric-type {
+        font-size: 12px !important;
+        color: #333 !important;
+        font-weight: 600;
+        text-transform: uppercase;
+    }
+    
+    .sticker-body {
+        flex: 1;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 3mm;
+        margin: 2mm 0;
+    }
+    
+    .field-label {
+        font-size: 9px !important;
+        color: #666 !important;
+        text-transform: uppercase;
+        margin-bottom: 1mm;
+        font-weight: 500;
+    }
+    
+    .field-value {
+        font-size: 12px !important;
+        color: #000 !important;
+        font-weight: 600;
+        word-wrap: break-word;
+        overflow: visible;
+    }
+    
+    .sticker-footer {
+        margin-top: 2mm;
+        padding-top: 2mm;
+        border-top: 1px solid #333;
+        text-align: center;
+    }
+    
+    .manufacturer {
+        font-size: 10px !important;
+        color: #333 !important;
+        font-style: italic;
+    }
+    
+    .color-indicator {
+        width: 12px !important;
+        height: 12px !important;
+        border: 1px solid #000 !important;
+        border-radius: 50%;
+        display: inline-block;
+        margin-left: 3px;
+        vertical-align: middle;
+    }
+    
+    /* Special fabric type backgrounds for print */
+    .sticker[data-fabric="Cotton"] {
+        border-color: #38a169 !important;
+        background: #f0fff4 !important;
+    }
+    
+    .sticker[data-fabric="Polyester"] {
+        border-color: #3182ce !important;
+        background: #ebf8ff !important;
+    }
+    
+    .sticker[data-fabric="Silk"] {
+        border-color: #d69e2e !important;
+        background: #fffbeb !important;
+    }
+    
+    .sticker[data-fabric="Wool"] {
+        border-color: #805ad5 !important;
+        background: #faf5ff !important;
+    }
+    
+    /* Hide any loading or error messages */
+    .loading,
+    .error-message,
+    .no-data {
+        display: none !important;
     }
 }
 
 /* Responsive design for screen viewing */
 @media screen and (max-width: 768px) {
     .stickers-container {
-        gap: 3mm;
+        gap: 10px;
+        justify-content: center;
     }
     
     .sticker {
-        width: 100%;
-        height: auto;
-        min-height: 74.25mm;
+        width: 300px;
+        height: 400px;
+        margin: 0 auto;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .container {
+        padding: 5mm;
+    }
+    
+    .stickers-container {
+        gap: 10px;
+    }
+    
+    .sticker {
+        width: 280px;
+        height: 380px;
     }
 }
 
