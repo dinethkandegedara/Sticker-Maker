@@ -261,8 +261,8 @@ body {
     }
     
     @page {
-        size: A4;
-        margin: 10mm 8mm; /* Increased margins for better spacing */
+        size: A4 landscape; /* Changed to landscape orientation */
+        margin: 5mm; /* Reduced margins to use more of the page */
     }
     
     body {
@@ -270,14 +270,14 @@ body {
         font-size: 12pt;
         margin: 0 !important;
         padding: 0 !important;
-        width: 210mm;
+        width: 297mm; /* A4 height becomes width in landscape */
         height: auto !important; /* Allow content to flow across pages */
         overflow: visible !important; /* Allow overflow content to be printed */
     }
     
     .container {
         max-width: none !important;
-        width: 194mm !important; /* A4 width minus margins */
+        width: 287mm !important; /* A4 landscape width minus margins */
         height: auto !important; /* Allow container to grow based on content */
         margin: 0 !important;
         padding: 0 !important;
@@ -296,23 +296,23 @@ body {
     
     .stickers-container {
         display: grid !important;
-        grid-template-columns: 94mm 94mm !important; /* Slightly smaller to prevent overflow */
-        grid-auto-rows: 70mm !important; /* Fixed height rows */
-        gap: 5mm !important; /* Consistent gap */
-        width: 194mm !important;
+        grid-template-columns: repeat(3, 94mm) !important; /* 3 columns for landscape */
+        grid-auto-rows: 95mm !important; /* 2 rows (A4 width divided by 2) */
+        gap: 2.5mm !important; /* Consistent gap */
+        width: 287mm !important; /* Use full A4 landscape width */
         height: auto !important;
         margin: 0 !important;
         padding: 0 !important;
         align-content: start !important;
         justify-content: center !important;
-        page-break-before: auto !important; /* Standard page break behavior */
+        page-break-before: auto !important;
         page-break-after: auto !important;
     }
     
     .sticker {
-        width: 92mm !important; /* Adjusted to fit 2 per row with gaps */
-        height: 68mm !important; /* Adjusted height for better proportions */
-        border: 1px solid #000000 !important; /* Black border */
+        width: 93mm !important; /* Wider for landscape orientation */
+        height: 94mm !important; /* Shorter height for 2 rows per landscape page */
+        border: 1px solid #000000 !important;
         background: white !important;
         box-shadow: none !important;
         margin: 0 !important;
@@ -328,22 +328,22 @@ body {
         background: #000000 !important;
         color: white !important;
         margin: -1mm -1mm 1mm -1mm !important;
-        padding: 1.5mm 2mm !important;
+        padding: 2mm 3mm !important; /* Increased padding for better appearance */
         border-radius: 0 !important;
         box-shadow: none !important;
         display: flex !important;
         justify-content: space-between !important;
         align-items: center !important;
-        height: 5mm !important; /* Fixed height */
+        height: 7mm !important; /* Increased height for better appearance */
     }
     
     .header-text {
-        font-size: 10px !important; /* Increased font size */
+        font-size: 10px !important; /* Increased for landscape */
         font-weight: 600 !important;
     }
     
     .header-serial {
-        font-size: 10px !important; /* Increased font size */
+        font-size: 10px !important; /* Increased for landscape */
         background: transparent !important;
         color: white !important;
         padding: 0.5mm 1mm !important;
@@ -353,7 +353,7 @@ body {
     
     .sticker-content {
         background: white !important;
-        padding: 2mm !important; /* Reduced padding to fit more content */
+        padding: 2mm !important; /* Increased padding for better appearance */
         overflow: visible !important; /* Allow content to be fully visible */
         height: calc(100% - 3mm) !important; /* Account for footer */
         display: flex !important;
@@ -366,14 +366,14 @@ body {
         border-radius: 0 !important;
         box-shadow: none !important;
         gap: 0 !important;
-        grid-template-columns: repeat(3, 1fr) !important;
+        grid-template-columns: repeat(3, 1fr) !important; /* Back to 3 columns for wider landscape stickers */
         flex: 1 !important; /* Take up available space */
         overflow: visible !important; /* Ensure content is visible */
     }
     
     .data-cell {
-        min-height: 6mm !important;
-        padding: 1mm 1.5mm !important;
+        min-height: 8mm !important; /* Increased height */
+        padding: 1.5mm 2mm !important; /* Increased padding */
         border-bottom: 0.5px solid #000000 !important;
     }
     
@@ -389,14 +389,14 @@ body {
     }
     
     .data-label {
-        font-size: 7px !important; /* Increased font size */
+        font-size: 9px !important; /* Increased for better readability in landscape */
         margin-bottom: 1mm !important;
         color: #000000 !important;
         font-weight: 600 !important;
     }
     
     .data-value {
-        font-size: 10px !important; /* Increased font size */
+        font-size: 11px !important; /* Increased for better readability in landscape */
         color: #000000 !important;
         line-height: 1.2 !important;
         font-weight: 600 !important;
@@ -404,16 +404,16 @@ body {
     
     .data-cell.important .data-label {
         color: #000000 !important;
-        font-size: 7px !important; /* Increased font size */
+        font-size: 9px !important; /* Same as regular labels */
         font-weight: 700 !important;
     }
     
     .data-cell.important .data-value {
         color: #000000 !important;
         font-weight: 700 !important;
-        font-size: 12px !important; /* Increased font size */
-        text-decoration: none !important; /* Removed underline */
-        font-weight: 800 !important; /* Made it bolder instead */
+        font-size: 11px !important; /* Same as regular values */
+        text-decoration: none !important;
+        font-weight: 800 !important; /* Just make it bolder */
     }
     
     .sticker-footer {
@@ -423,16 +423,18 @@ body {
         margin-top: auto !important;
     }
     
-    /* Force page break after every 4 stickers (2x2 grid) */
-    .sticker:nth-child(4n) {
+    /* Force page break after every 6 stickers (3x2 grid) */
+    .sticker:nth-child(6n) {
         page-break-after: always !important;
-        margin-bottom: 5mm !important; /* Add space after each set of 4 stickers */
+        margin-bottom: 5mm !important; /* Add space after each set of 6 stickers */
     }
     
     /* Ensure each row of stickers stays together */
-    .sticker:nth-child(4n-1),
-    .sticker:nth-child(4n-2),
-    .sticker:nth-child(4n-3) {
+    .sticker:nth-child(6n-1),
+    .sticker:nth-child(6n-2),
+    .sticker:nth-child(6n-3),
+    .sticker:nth-child(6n-4),
+    .sticker:nth-child(6n-5) {
         page-break-after: avoid !important;
     }
     

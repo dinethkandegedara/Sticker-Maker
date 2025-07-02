@@ -140,7 +140,7 @@ class StickerMaker {
             <div class="header-serial">${rowData['Serial #'] || 'N/A'}</div>
         `;
         
-        // Create clean 3-column data grid
+        // Create clean 3-column data grid for landscape sticker layout
         const table = document.createElement('div');
         table.className = 'sticker-data-table';
         
@@ -283,8 +283,9 @@ class StickerMaker {
         // Add a small delay to ensure CSS is applied before printing
         setTimeout(() => {
             // Ensure page breaks are properly set up
-            const pageCount = Math.ceil(this.data.length / 4);
-            console.log(`Printing ${pageCount} pages of stickers...`);
+            const stickersPerPage = 6; // Updated to 6 stickers per page
+            const pageCount = Math.ceil(this.data.length / stickersPerPage);
+            console.log(`Printing ${pageCount} pages of stickers (${stickersPerPage} per page)...`);
             
             // Force a reflow before printing
             document.body.style.display = 'none';
@@ -326,7 +327,7 @@ class StickerMaker {
         this.removePageIndicators();
         
         const stickers = document.querySelectorAll('.sticker');
-        const stickersPerPage = 4; // 2x2 grid
+        const stickersPerPage = 6; // Updated to 6 stickers per page (3x2 grid)
         
         for (let i = 0; i < stickers.length; i += stickersPerPage) {
             const pageNumber = Math.floor(i / stickersPerPage) + 1;
@@ -355,17 +356,18 @@ class StickerMaker {
         }
         
         const stickerCount = this.data.length;
-        const pageCount = Math.ceil(stickerCount / 4); // 4 stickers per page
+        const stickersPerPage = 6; // Changed from 4 to 6 stickers per page
+        const pageCount = Math.ceil(stickerCount / stickersPerPage);
         
         this.statusText.textContent = `${stickerCount} sticker${stickerCount !== 1 ? 's' : ''} loaded and ready to print`;
-        this.stickerCount.textContent = `${pageCount} page${pageCount !== 1 ? 's' : ''} (4 stickers per page)`;
+        this.stickerCount.textContent = `${pageCount} page${pageCount !== 1 ? 's' : ''} (${stickersPerPage} stickers per page)`;
         
         this.statusBar.classList.remove('hidden');
         
-        // Add spacers after every 4th sticker to ensure proper page breaks when printing
-        if (stickerCount > 4) {
+        // Add spacers after every 6th sticker to ensure proper page breaks when printing
+        if (stickerCount > stickersPerPage) {
             const stickers = document.querySelectorAll('.sticker');
-            for (let i = 3; i < stickers.length; i += 4) {
+            for (let i = stickersPerPage - 1; i < stickers.length; i += stickersPerPage) {
                 if (stickers[i]) {
                     const spacer = document.createElement('div');
                     spacer.className = 'page-break-spacer';
