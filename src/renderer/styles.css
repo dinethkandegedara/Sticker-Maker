@@ -305,8 +305,8 @@ body {
         padding: 0 !important;
         align-content: start !important;
         justify-content: center !important;
-        page-break-before: auto !important;
-        page-break-after: auto !important;
+        grid-auto-flow: row !important;
+        grid-row-gap: 3mm !important;
     }
     
     .sticker {
@@ -423,19 +423,11 @@ body {
         margin-top: auto !important;
     }
     
-    /* Force page break after every 6 stickers (3x2 grid) */
-    .sticker:nth-child(6n) {
-        page-break-after: always !important;
-        margin-bottom: 5mm !important; /* Add space after each set of 6 stickers */
-    }
-    
-    /* Ensure each row of stickers stays together */
-    .sticker:nth-child(6n-1),
-    .sticker:nth-child(6n-2),
-    .sticker:nth-child(6n-3),
-    .sticker:nth-child(6n-4),
-    .sticker:nth-child(6n-5) {
-        page-break-after: avoid !important;
+    /* Remove automatic page breaks from CSS since we're using explicit spacers */
+    .sticker {
+        page-break-inside: avoid !important;
+        break-inside: avoid !important;
+        margin-bottom: 2.5mm !important; /* Consistent spacing between stickers */
     }
     
     /* Hide any loading or error messages */
@@ -454,9 +446,63 @@ body {
     .page-break-spacer {
         display: block !important;
         height: 0 !important;
+        width: 100% !important;
         page-break-before: always !important;
+        page-break-after: avoid !important;
         margin: 0 !important;
         padding: 0 !important;
+        clear: both !important;
+        visibility: hidden !important;
+        position: relative !important;
+    }
+    
+    /* Ensure stickers are properly grouped for printing */
+    .stickers-container {
+        display: flex !important;
+        flex-wrap: wrap !important;
+        justify-content: space-between !important;
+    }
+    
+    .sticker {
+        flex: 0 0 94mm !important;
+        margin: 0 0 2mm 0 !important;
+        page-break-inside: avoid !important;
+    }
+    
+    /* Create a row wrapper to properly group stickers */
+    .stickers-container::after {
+        content: "";
+        flex: auto;
+    }
+}
+
+/* Page wrapper to group stickers for printing */
+.sticker-page-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    width: 100%;
+    margin-bottom: 5mm;
+}
+
+@media print {
+    .sticker-page-wrapper {
+        page-break-after: always !important;
+        break-after: page !important;
+        display: grid !important;
+        grid-template-columns: repeat(3, 1fr) !important;
+        grid-template-rows: repeat(2, 1fr) !important;
+        gap: 2mm !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        width: 100% !important;
+        height: 200mm !important;
+    }
+    
+    /* Hide the last page wrapper's page break if it's the last one */
+    .sticker-page-wrapper:last-child {
+        page-break-after: avoid !important;
+        break-after: avoid !important;
     }
 }
 

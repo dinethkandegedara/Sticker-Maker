@@ -107,10 +107,23 @@ class StickerMaker {
         this.stickersContainer.innerHTML = '';
         
         // Iterate over each row from Excel data
-        this.data.forEach((row, index) => {
-            const stickerDiv = this.createStickerElement(row, index);
-            this.stickersContainer.appendChild(stickerDiv);
-        });
+        const stickersPerPage = 6;
+        
+        // Create stickers in groups of 6 for better layout control
+        for (let i = 0; i < this.data.length; i += stickersPerPage) {
+            // Create a wrapper for each page of stickers
+            const pageWrapper = document.createElement('div');
+            pageWrapper.className = 'sticker-page-wrapper';
+            
+            // Add stickers to this page
+            const pageEnd = Math.min(i + stickersPerPage, this.data.length);
+            for (let j = i; j < pageEnd; j++) {
+                const stickerDiv = this.createStickerElement(this.data[j], j);
+                pageWrapper.appendChild(stickerDiv);
+            }
+            
+            this.stickersContainer.appendChild(pageWrapper);
+        }
         
         // Enable the print and preview buttons since we now have stickers
         this.printBtn.disabled = false;
@@ -287,6 +300,9 @@ class StickerMaker {
             const pageCount = Math.ceil(this.data.length / stickersPerPage);
             console.log(`Printing ${pageCount} pages of stickers (${stickersPerPage} per page)...`);
             
+            // We're now using page wrappers which handle page breaks automatically
+            // No need for additional spacers
+            
             // Force a reflow before printing
             document.body.style.display = 'none';
             document.body.offsetHeight; // Force reflow
@@ -326,22 +342,21 @@ class StickerMaker {
         // Remove existing indicators
         this.removePageIndicators();
         
-        const stickers = document.querySelectorAll('.sticker');
-        const stickersPerPage = 6; // Updated to 6 stickers per page (3x2 grid)
+        const pageWrappers = document.querySelectorAll('.sticker-page-wrapper');
         
-        for (let i = 0; i < stickers.length; i += stickersPerPage) {
-            const pageNumber = Math.floor(i / stickersPerPage) + 1;
-            const lastStickerOnPage = Math.min(i + stickersPerPage - 1, stickers.length - 1);
+        pageWrappers.forEach((wrapper, index) => {
+            const pageNumber = index + 1;
+            const stickersInPage = wrapper.querySelectorAll('.sticker');
+            const firstStickerIndex = Array.from(document.querySelectorAll('.sticker')).indexOf(stickersInPage[0]) + 1;
+            const lastStickerIndex = firstStickerIndex + stickersInPage.length - 1;
             
-            if (lastStickerOnPage < stickers.length - 1) {
-                const indicator = document.createElement('div');
-                indicator.className = 'page-indicator';
-                indicator.textContent = `Page ${pageNumber} (Stickers ${i + 1}-${lastStickerOnPage + 1})`;
-                
-                // Insert after the last sticker of this page
-                stickers[lastStickerOnPage].parentNode.insertBefore(indicator, stickers[lastStickerOnPage].nextSibling);
-            }
-        }
+            const indicator = document.createElement('div');
+            indicator.className = 'page-indicator';
+            indicator.textContent = `Page ${pageNumber} (Stickers ${firstStickerIndex}-${lastStickerIndex})`;
+            
+            // Insert after each page wrapper
+            wrapper.parentNode.insertBefore(indicator, wrapper.nextSibling);
+        });
     }
     
     removePageIndicators() {
@@ -356,7 +371,7 @@ class StickerMaker {
         }
         
         const stickerCount = this.data.length;
-        const stickersPerPage = 6; // Changed from 4 to 6 stickers per page
+        const stickersPerPage = 6; // 6 stickers per page (3×2 grid)
         const pageCount = Math.ceil(stickerCount / stickersPerPage);
         
         this.statusText.textContent = `${stickerCount} sticker${stickerCount !== 1 ? 's' : ''} loaded and ready to print`;
@@ -364,17 +379,7 @@ class StickerMaker {
         
         this.statusBar.classList.remove('hidden');
         
-        // Add spacers after every 6th sticker to ensure proper page breaks when printing
-        if (stickerCount > stickersPerPage) {
-            const stickers = document.querySelectorAll('.sticker');
-            for (let i = stickersPerPage - 1; i < stickers.length; i += stickersPerPage) {
-                if (stickers[i]) {
-                    const spacer = document.createElement('div');
-                    spacer.className = 'page-break-spacer';
-                    stickers[i].after(spacer);
-                }
-            }
-        }
+        // We no longer need to add spacers here since we're using page wrappers
     }
     
     hideStatusBar() {
