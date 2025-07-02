@@ -8,15 +8,25 @@ class StickerMaker {
     initializeElements() {
         console.log('Initializing elements...');
         this.loadFileBtn = document.getElementById('loadFileBtn');
+        this.previewBtn = document.getElementById('previewBtn');
         this.printBtn = document.getElementById('printBtn');
         this.stickersContainer = document.getElementById('stickersContainer');
+        this.statusBar = document.getElementById('statusBar');
+        this.statusText = document.getElementById('statusText');
+        this.stickerCount = document.getElementById('stickerCount');
+        this.isPreviewMode = false;
         
         console.log('Load button found:', !!this.loadFileBtn);
+        console.log('Preview button found:', !!this.previewBtn);
         console.log('Print button found:', !!this.printBtn);
         console.log('Stickers container found:', !!this.stickersContainer);
+        console.log('Status bar found:', !!this.statusBar);
         
         if (!this.loadFileBtn) {
             console.error('loadFileBtn element not found!');
+        }
+        if (!this.previewBtn) {
+            console.error('previewBtn element not found!');
         }
         if (!this.printBtn) {
             console.error('printBtn element not found!');
@@ -30,6 +40,11 @@ class StickerMaker {
         this.loadFileBtn.addEventListener('click', () => {
             console.log('Load Excel button clicked');
             this.loadExcelFile();
+        });
+        
+        this.previewBtn.addEventListener('click', () => {
+            console.log('Preview button clicked');
+            this.togglePrintPreview();
         });
         
         this.printBtn.addEventListener('click', () => {
@@ -100,9 +115,13 @@ class StickerMaker {
         // Generate QR codes after DOM insertion
         this.generateQRCodes();
         
-        // Enable the print button since we now have stickers
+        // Enable the print and preview buttons since we now have stickers
         this.printBtn.disabled = false;
-        console.log('Print button enabled');
+        this.previewBtn.disabled = false;
+        console.log('Print and preview buttons enabled');
+        
+        // Show status bar with sticker count
+        this.updateStatusBar();
     }
     
     async generateQRCodes() {
@@ -365,10 +384,11 @@ class StickerMaker {
                 </div>
             `;
             this.loadFileBtn.disabled = true;
+            this.previewBtn.disabled = true;
             this.printBtn.disabled = true;
         } else {
             this.loadFileBtn.disabled = false;
-            // Don't enable print button here - it will be enabled in createStickers
+            // Don't enable preview and print buttons here - they will be enabled in createStickers
         }
     }
     
@@ -378,7 +398,9 @@ class StickerMaker {
                 <strong>Error:</strong> ${message}
             </div>
         `;
+        this.previewBtn.disabled = true;
         this.printBtn.disabled = true;
+        this.hideStatusBar();
     }
     
     printStickers() {
@@ -392,6 +414,77 @@ class StickerMaker {
         
         // Call the browser's print function
         window.print();
+    }
+    
+    togglePrintPreview() {
+        this.isPreviewMode = !this.isPreviewMode;
+        
+        if (this.isPreviewMode) {
+            // Enter print preview mode
+            document.body.classList.add('print-preview');
+            this.previewBtn.innerHTML = '👁️ Exit Preview';
+            this.previewBtn.style.background = 'linear-gradient(135deg, #ef4444, #dc2626)';
+            
+            // Add page indicators
+            this.addPageIndicators();
+            
+            // Scroll to top
+            window.scrollTo(0, 0);
+        } else {
+            // Exit print preview mode
+            document.body.classList.remove('print-preview');
+            this.previewBtn.innerHTML = '👁️ Print Preview';
+            this.previewBtn.style.background = 'linear-gradient(135deg, #8b5cf6, #7c3aed)';
+            
+            // Remove page indicators
+            this.removePageIndicators();
+        }
+    }
+    
+    addPageIndicators() {
+        // Remove existing indicators
+        this.removePageIndicators();
+        
+        const stickers = document.querySelectorAll('.sticker');
+        const stickersPerPage = 4; // 2x2 grid
+        
+        for (let i = 0; i < stickers.length; i += stickersPerPage) {
+            const pageNumber = Math.floor(i / stickersPerPage) + 1;
+            const lastStickerOnPage = Math.min(i + stickersPerPage - 1, stickers.length - 1);
+            
+            if (lastStickerOnPage < stickers.length - 1) {
+                const indicator = document.createElement('div');
+                indicator.className = 'page-indicator';
+                indicator.textContent = `Page ${pageNumber} (Stickers ${i + 1}-${lastStickerOnPage + 1})`;
+                
+                // Insert after the last sticker of this page
+                stickers[lastStickerOnPage].parentNode.insertBefore(indicator, stickers[lastStickerOnPage].nextSibling);
+            }
+        }
+    }
+    
+    removePageIndicators() {
+        const indicators = document.querySelectorAll('.page-indicator');
+        indicators.forEach(indicator => indicator.remove());
+    }
+    
+    updateStatusBar() {
+        if (!this.data || this.data.length === 0) {
+            this.statusBar.classList.add('hidden');
+            return;
+        }
+        
+        const stickerCount = this.data.length;
+        const pageCount = Math.ceil(stickerCount / 4); // 4 stickers per page
+        
+        this.statusText.textContent = `✅ ${stickerCount} sticker${stickerCount !== 1 ? 's' : ''} loaded and ready to print`;
+        this.stickerCount.textContent = `📄 ${pageCount} page${pageCount !== 1 ? 's' : ''} (4 stickers per page)`;
+        
+        this.statusBar.classList.remove('hidden');
+    }
+    
+    hideStatusBar() {
+        this.statusBar.classList.add('hidden');
     }
 }
 

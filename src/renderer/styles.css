@@ -18,23 +18,24 @@ body {
     padding: 10mm;
 }
 
-/* Sticker Container - Flexbox layout for wrapping */
+/* Sticker Container - Better preview layout */
 .stickers-container {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: flex-start;
-    gap: 10px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 20px;
     margin-top: 10mm;
     max-width: 100%;
+    padding: 20px;
+    justify-content: center;
 }
 
-/* Individual Textile Roll Sticker Styles - Exact format from image */
+/* Individual Textile Roll Sticker Styles - Larger for screen preview */
 .sticker {
-    width: 148.5mm;  /* Half A4 length */
-    height: 74.25mm; /* Quarter A4 height */
+    width: 350px;  /* Larger for better screen viewing */
+    height: 175px; /* Proportional to print size */
     border: 2px solid #000;
     background: white;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
     display: flex;
     flex-direction: column;
     page-break-inside: avoid;
@@ -43,14 +44,21 @@ body {
     padding: 0;
     margin: 0;
     font-family: Arial, sans-serif;
+    border-radius: 4px; /* Slight rounding for screen */
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-/* Main content area (white section) */
+.sticker:hover {
+    transform: scale(1.02);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+}
+
+/* Main content area (white section) - Better proportions for screen */
 .sticker-content {
     flex: 1;
     display: flex;
     flex-direction: column;
-    padding: 2mm;
+    padding: 8px;
     background: white;
 }
 
@@ -59,41 +67,43 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
-    margin-bottom: 1mm;
-    padding-bottom: 1mm;
+    margin-bottom: 4px;
+    padding-bottom: 4px;
     border-bottom: 1px solid #000;
 }
 
 .company-name {
-    font-size: 10px;
+    font-size: 14px;
     font-weight: bold;
     color: #000;
 }
 
 .plant-info {
-    font-size: 8px;
+    font-size: 11px;
     color: #000;
     text-align: right;
 }
 
-/* Main data table */
+/* Main data table - Better sizing for screen */
 .sticker-table {
     flex: 1;
     display: grid;
     grid-template-columns: repeat(6, 1fr);
     border: 1px solid #000;
-    font-size: 7px;
-    line-height: 1.1;
+    font-size: 10px;
+    line-height: 1.2;
+    margin-bottom: 6px;
 }
 
 .table-cell {
     border-right: 1px solid #000;
     border-bottom: 1px solid #000;
-    padding: 1mm;
+    padding: 3px;
     display: flex;
     flex-direction: column;
     justify-content: center;
     background: white;
+    min-height: 25px;
 }
 
 .table-cell:nth-child(6n) {
@@ -104,26 +114,26 @@ body {
     background: #f5f5f5;
     font-weight: bold;
     text-align: center;
-    font-size: 6px;
+    font-size: 8px;
     writing-mode: vertical-rl;
     text-orientation: mixed;
-    padding: 0.5mm;
+    padding: 2px;
 }
 
 .table-cell.data {
     font-weight: bold;
     text-align: center;
-    font-size: 8px;
+    font-size: 10px;
 }
 
 /* Bottom section with QR code and additional info */
 .sticker-bottom {
     display: grid;
-    grid-template-columns: 25mm 1fr 20mm;
-    gap: 1mm;
-    padding: 1mm 2mm;
+    grid-template-columns: 60px 1fr 50px;
+    gap: 6px;
+    padding: 6px 8px;
     border-top: 1px solid #000;
-    height: 18mm;
+    height: 45px;
 }
 
 .qr-section {
@@ -134,15 +144,15 @@ body {
 }
 
 .qr-code {
-    width: 15mm;
-    height: 15mm;
+    width: 35px;
+    height: 35px;
     border: 1px solid #000;
 }
 
 .qr-number {
-    font-size: 6px;
+    font-size: 8px;
     font-weight: bold;
-    margin-top: 1mm;
+    margin-top: 2px;
     text-align: center;
 }
 
@@ -150,13 +160,13 @@ body {
     display: grid;
     grid-template-columns: 1fr 1fr;
     border: 1px solid #000;
-    font-size: 7px;
+    font-size: 9px;
 }
 
 .lot-cell {
     border-right: 1px solid #000;
     border-bottom: 1px solid #000;
-    padding: 1mm;
+    padding: 3px;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -173,13 +183,13 @@ body {
 
 .lot-label {
     font-weight: bold;
-    font-size: 6px;
-    margin-bottom: 0.5mm;
+    font-size: 7px;
+    margin-bottom: 1px;
 }
 
 .lot-value {
     font-weight: bold;
-    font-size: 8px;
+    font-size: 9px;
 }
 
 .date-section {
@@ -188,13 +198,13 @@ body {
     justify-content: center;
     align-items: center;
     border: 1px solid #000;
-    font-size: 8px;
+    font-size: 10px;
     font-weight: bold;
 }
 
 /* Red footer bar */
 .sticker-footer {
-    height: 6mm;
+    height: 12px;
     background: #d32f2f;
     width: 100%;
 }
@@ -312,30 +322,34 @@ body {
 @media print {
     * {
         -webkit-print-color-adjust: exact !important;
-        color-adjust: exact !important;
-        print-color-adjust: exact !important;
+        print-color-adjust: exact !
+        box-sizing: border-box !important;
     }
     
     @page {
         size: A4;
-        margin: 10mm;
+        margin: 8mm 6mm; /* Reduced margins */
     }
     
     body {
         background: white !important;
         font-size: 12pt;
-        margin: 0;
-        padding: 0;
+        margin: 0 !important;
+        padding: 0 !important;
+        width: 210mm;
+        height: 297mm;
+        overflow: hidden;
     }
     
     .container {
-        max-width: none;
-        width: 210mm;
-        height: 297mm;
-        margin: 0;
-        padding: 10mm;
-        box-shadow: none;
-        background: white;
+        max-width: none !important;
+        width: 198mm !important; /* A4 width minus margins */
+        height: 281mm !important; /* A4 height minus margins */
+        margin: 0 !important;
+        padding: 0 !important;
+        box-shadow: none !important;
+        background: white !important;
+        overflow: hidden;
     }
     
     .header {
@@ -347,35 +361,41 @@ body {
     }
     
     .stickers-container {
-        display: grid;
-        grid-template-columns: 1fr 1fr; /* 2 columns */
-        grid-template-rows: 1fr 1fr 1fr 1fr; /* 4 rows for 8 stickers */
-        gap: 5mm;
-        width: 190mm;
-        height: 277mm;
-        margin: 0;
-        padding: 0;
+        display: grid !important;
+        grid-template-columns: 96mm 96mm !important; /* 2 columns, exact fit */
+        grid-template-rows: repeat(auto-fit, 72mm) !important; /* Auto rows */
+        gap: 3mm 6mm !important; /* Reduced gap */
+        width: 198mm !important;
+        height: auto !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        align-content: start !important;
+        justify-content: space-between !important;
     }
     
     .sticker {
-        width: 148.5mm !important;
-        height: 74.25mm !important;
-        border: 2px solid #000 !important;
+        width: 96mm !important; /* Adjusted to fit 2 per row with gaps */
+        height: 72mm !important; /* Adjusted height */
+        border: 1px solid #000 !important; /* Thinner border */
         background: white !important;
-        box-shadow: none;
-        margin: 0;
+        box-shadow: none !important;
+        margin: 0 !important;
+        padding: 0 !important;
         break-inside: avoid !important;
         page-break-inside: avoid !important;
         font-family: Arial, sans-serif !important;
+        overflow: hidden !important;
     }
     
-    /* Force page break after every 8 stickers */
-    .sticker:nth-child(8n) {
+    /* Force page break after every 4 stickers (2x2 grid) */
+    .sticker:nth-child(4n) {
         page-break-after: always !important;
     }
     
     .sticker-content {
         background: white !important;
+        padding: 1.5mm !important; /* Reduced padding */
+        height: calc(72mm - 6mm) !important; /* Total height minus footer */
     }
     
     .sticker-footer {
@@ -384,56 +404,71 @@ body {
     }
     
     .company-name {
-        font-size: 10px !important;
+        font-size: 9px !important;
         color: #000 !important;
     }
     
     .plant-info {
-        font-size: 8px !important;
+        font-size: 7px !important;
         color: #000 !important;
+    }
+    
+    .sticker-table {
+        font-size: 6px !important; /* Smaller font */
+        gap: 0 !important;
     }
     
     .table-cell {
         border-right: 1px solid #000 !important;
         border-bottom: 1px solid #000 !important;
         background: white !important;
-        font-size: 7px !important;
+        font-size: 6px !important;
+        padding: 0.5mm !important; /* Reduced padding */
+        line-height: 1.1 !important;
     }
     
     .table-cell.header {
         background: #f5f5f5 !important;
-        font-size: 6px !important;
+        font-size: 5px !important;
     }
     
     .table-cell.data {
-        font-size: 8px !important;
+        font-size: 7px !important;
+    }
+    
+    .sticker-bottom {
+        height: 14mm !important; /* Reduced height */
+        padding: 1mm !important;
     }
     
     .qr-code {
+        width: 12mm !important; /* Smaller QR code */
+        height: 12mm !important;
         border: 1px solid #000 !important;
     }
     
     .qr-number {
-        font-size: 6px !important;
+        font-size: 5px !important;
     }
     
     .lot-cell {
         border-right: 1px solid #000 !important;
         border-bottom: 1px solid #000 !important;
-        font-size: 7px !important;
+        font-size: 6px !important;
+        padding: 0.5mm !important;
     }
     
     .lot-label {
-        font-size: 6px !important;
+        font-size: 5px !important;
     }
     
     .lot-value {
-        font-size: 8px !important;
+        font-size: 7px !important;
     }
     
     .date-section {
         border: 1px solid #000 !important;
-        font-size: 8px !important;
+        font-size: 7px !important;
     }
     
     /* Hide any loading or error messages */
@@ -446,30 +481,90 @@ body {
 
 /* Responsive design for screen viewing */
 @media screen and (max-width: 768px) {
-    .stickers-container {
+    .container {
+        padding: 10px;
+    }
+    
+    .header {
+        flex-direction: column;
+        text-align: center;
         gap: 10px;
-        justify-content: center;
+    }
+    
+    .header h1 {
+        font-size: 1.5rem;
+    }
+    
+    .button-group {
+        flex-direction: column;
+        width: 100%;
+        gap: 10px;
+    }
+    
+    .load-btn, .preview-btn, .print-btn {
+        width: 100%;
+    }
+    
+    .stickers-container {
+        grid-template-columns: 1fr;
+        gap: 15px;
+        padding: 10px;
     }
     
     .sticker {
-        width: 300px;
-        height: 400px;
+        width: 100%;
+        max-width: 350px;
+        height: 175px;
         margin: 0 auto;
     }
 }
 
 @media screen and (max-width: 480px) {
     .container {
-        padding: 5mm;
-    }
-    
-    .stickers-container {
-        gap: 10px;
+        padding: 5px;
     }
     
     .sticker {
-        width: 280px;
-        height: 380px;
+        width: 100%;
+        height: 160px;
+    }
+    
+    .sticker-content {
+        padding: 6px;
+    }
+    
+    .company-name {
+        font-size: 12px;
+    }
+    
+    .plant-info {
+        font-size: 10px;
+    }
+    
+    .table-cell {
+        font-size: 8px;
+        padding: 2px;
+        min-height: 20px;
+    }
+    
+    .table-cell.data {
+        font-size: 9px;
+    }
+    
+    .sticker-bottom {
+        height: 35px;
+        grid-template-columns: 45px 1fr 40px;
+        gap: 4px;
+        padding: 4px 6px;
+    }
+    
+    .qr-code {
+        width: 25px;
+        height: 25px;
+    }
+    
+    .qr-number {
+        font-size: 6px;
     }
 }
 
@@ -784,4 +879,241 @@ body {
     cursor: not-allowed;
     transform: none;
     box-shadow: none;
+}
+
+.preview-btn {
+    background: linear-gradient(135deg, #8b5cf6, #7c3aed);
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.preview-btn:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.preview-btn:active {
+    transform: translateY(0);
+}
+
+.preview-btn:disabled {
+    background: #e2e8f0;
+    color: #a0aec0;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+/* Print Preview Mode */
+.print-preview {
+    background: #f8f9fa !important;
+    padding: 20px !important;
+}
+
+.print-preview .container {
+    max-width: none !important;
+    width: 210mm !important;
+    height: auto !important;
+    background: white !important;
+    margin: 0 auto !important;
+    padding: 8mm 6mm !important;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1) !important;
+    border-radius: 8px !important;
+}
+
+.print-preview .header {
+    background: #e9ecef !important;
+    color: #495057 !important;
+    margin-bottom: 20px !important;
+    border-radius: 6px !important;
+}
+
+.print-preview .stickers-container {
+    display: grid !important;
+    grid-template-columns: 96mm 96mm !important;
+    grid-template-rows: repeat(auto-fit, 72mm) !important;
+    gap: 3mm 6mm !important;
+    width: 198mm !important;
+    height: auto !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    align-content: start !important;
+    justify-content: space-between !important;
+}
+
+.print-preview .sticker {
+    width: 96mm !important;
+    height: 72mm !important;
+    border: 1px solid #000 !important;
+    border-radius: 0 !important;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1) !important;
+    transform: none !important;
+    font-size: 10px !important;
+}
+
+.print-preview .sticker:hover {
+    transform: none !important;
+}
+
+.print-preview .sticker-content {
+    padding: 1.5mm !important;
+    height: calc(72mm - 6mm) !important;
+}
+
+.print-preview .company-name {
+    font-size: 9px !important;
+}
+
+.print-preview .plant-info {
+    font-size: 7px !important;
+}
+
+.print-preview .table-cell {
+    font-size: 6px !important;
+    padding: 0.5mm !important;
+    min-height: auto !important;
+}
+
+.print-preview .table-cell.header {
+    font-size: 5px !important;
+}
+
+.print-preview .table-cell.data {
+    font-size: 7px !important;
+}
+
+.print-preview .sticker-bottom {
+    height: 14mm !important;
+    padding: 1mm !important;
+    grid-template-columns: 25mm 1fr 20mm !important;
+    gap: 1mm !important;
+}
+
+.print-preview .qr-code {
+    width: 12mm !important;
+    height: 12mm !important;
+}
+
+.print-preview .qr-number {
+    font-size: 5px !important;
+}
+
+.print-preview .lot-cell {
+    font-size: 6px !important;
+    padding: 0.5mm !important;
+}
+
+.print-preview .lot-label {
+    font-size: 5px !important;
+}
+
+.print-preview .lot-value {
+    font-size: 7px !important;
+}
+
+.print-preview .date-section {
+    font-size: 7px !important;
+}
+
+.print-preview .sticker-footer {
+    height: 6mm !important;
+}
+
+/* Page indicator for print preview */
+.page-indicator {
+    text-align: center;
+    padding: 10px;
+    color: #666;
+    font-style: italic;
+    border-top: 2px dashed #ccc;
+    margin-top: 20px;
+}
+
+/* Info box styles for no data state */
+.info-box {
+    background: #f8f9fa;
+    border: 1px solid #dee2e6;
+    border-radius: 8px;
+    padding: 20px;
+    margin-top: 20px;
+    text-align: left;
+    max-width: 400px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.info-box h4 {
+    color: #495057;
+    margin-bottom: 15px;
+    font-size: 1.1rem;
+}
+
+.info-box ul {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 15px 0;
+}
+
+.info-box li {
+    padding: 5px 0;
+    color: #6c757d;
+    font-size: 14px;
+}
+
+.info-box p {
+    margin: 0;
+    color: #6c757d;
+    font-size: 13px;
+}
+
+/* Status Bar Styles */
+.status-bar {
+    background: #28a745;
+    color: white;
+    padding: 12px 20px;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+}
+
+.status-bar.hidden {
+    transform: translateY(100%);
+}
+
+.status-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.status-actions {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    font-weight: 500;
+}
+
+/* Hide status bar when printing */
+@media print {
+    .status-bar {
+        display: none !important;
+    }
+}
+
+/* Adjust container bottom padding when status bar is visible */
+body:not(.print-preview) .container {
+    padding-bottom: 80px;
 }

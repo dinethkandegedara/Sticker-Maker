@@ -14,6 +14,9 @@
                 <button id="loadFileBtn" class="load-btn">
                     📁 Load Excel File
                 </button>
+                <button id="previewBtn" class="preview-btn" disabled>
+                    👁️ Print Preview
+                </button>
                 <button id="printBtn" class="print-btn" disabled>
                     🖨️ Print Stickers
                 </button>
@@ -25,6 +28,24 @@
                 <div class="no-data-icon">📋</div>
                 <h3>No Data Loaded</h3>
                 <p>Click "Load Excel File" to get started</p>
+                <div class="info-box">
+                    <h4>📋 How to use:</h4>
+                    <ul>
+                        <li>📁 Load your Excel file with textile roll data</li>
+                        <li>👁️ Use Print Preview to see how stickers will look when printed</li>
+                        <li>🖨️ Print stickers (4 per A4 page, exact size: 96mm x 72mm)</li>
+                    </ul>
+                    <p><small>💡 Tip: Your Excel file should have columns like Style, Material, Quantity, Color, etc.</small></p>
+                </div>
+            </div>
+        </div>
+
+        <div id="statusBar" class="status-bar hidden">
+            <div class="status-content">
+                <span id="statusText"></span>
+                <div class="status-actions">
+                    <span id="stickerCount"></span>
+                </div>
             </div>
         </div>
     </div>
