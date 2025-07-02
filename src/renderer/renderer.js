@@ -36,7 +36,7 @@ class ExcelViewer {
             this.showLoading(true);
             this.hideError();
             
-            const result = await window.electronAPI.openExcelFile();
+            const result = await window.electronAPI.loadExcel();
             
             this.showLoading(false);
             
