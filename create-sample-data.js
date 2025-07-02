@@ -1,87 +1,107 @@
 const XLSX = require('xlsx');
 const path = require('path');
 
-// Sample fabric roll data
+// Sample textile roll data with all required fields
 const sampleData = [
     {
-        "ROLL NO": "FR001",
-        "Fabric type": "Cotton",
-        "length": 50.5,
-        "whegnt": 12.3,
-        "color": "Blue",
-        "manufacturer": "TextileCorp"
+        "Style": "TLWMAXX",
+        "Material": "Cotton",
+        "Item Description": "Cotton Fabric Roll",
+        "Composition": "100% Cotton",
+        "PO Number": "EXP/2025-26/7",
+        "Supplier": "TextileCorp",
+        "Sales Order": "SO1001",
+        "Invoice No.": "INV3001",
+        "Vendor Batch": "VB241852",
+        "Shade": "Blue",
+        "Roll No.": "A603",
+        "Bin No.": "BIN001",
+        "Quantity": "56.30M",
+        "Received Date": "22/05/2026",
+        "Brand": "TLWMAXX",
+        "LOT": "LOT001",
+        "LOT TKM": "TKM001",
+        "QR Code": "1100000000001955638"
     },
     {
-        "ROLL NO": "FR002", 
-        "Fabric type": "Polyester",
-        "length": 75.2,
-        "whegnt": 18.7,
-        "color": "Red",
-        "manufacturer": "FabricMax"
+        "Style": "TLWMAXX",
+        "Material": "Polyester",
+        "Item Description": "Polyester Blend Fabric",
+        "Composition": "65% Polyester 35% Cotton",
+        "PO Number": "EXP/2025-27/8",
+        "Supplier": "FabricMax",
+        "Sales Order": "SO1002",
+        "Invoice No.": "INV3002",
+        "Vendor Batch": "VB241853",
+        "Shade": "Red",
+        "Roll No.": "B604",
+        "Bin No.": "BIN002",
+        "Quantity": "75.20M",
+        "Received Date": "23/05/2026",
+        "Brand": "TLWMAXX",
+        "LOT": "LOT002",
+        "LOT TKM": "TKM002",
+        "QR Code": "1100000000001955639"
     },
     {
-        "ROLL NO": "FR003",
-        "Fabric type": "Silk",
-        "length": 25.8,
-        "whegnt": 5.2,
-        "color": "White",
-        "manufacturer": "LuxuryTextiles"
+        "Style": "TLWMAXX",
+        "Material": "Silk",
+        "Item Description": "Premium Silk Fabric",
+        "Composition": "100% Silk",
+        "PO Number": "EXP/2025-28/9",
+        "Supplier": "LuxuryTextiles",
+        "Sales Order": "SO1003",
+        "Invoice No.": "INV3003",
+        "Vendor Batch": "VB241854",
+        "Shade": "White",
+        "Roll No.": "C605",
+        "Bin No.": "BIN003",
+        "Quantity": "25.80M",
+        "Received Date": "24/05/2026",
+        "Brand": "TLWMAXX",
+        "LOT": "LOT003",
+        "LOT TKM": "TKM003",
+        "QR Code": "1100000000001955640"
     },
     {
-        "ROLL NO": "FR004",
-        "Fabric type": "Wool",
-        "length": 45.0,
-        "whegnt": 22.1,
-        "color": "Green",
-        "manufacturer": "WoolWorks"
+        "Style": "TLWMAXX",
+        "Material": "Wool",
+        "Item Description": "Merino Wool Blend",
+        "Composition": "80% Wool 20% Polyester",
+        "PO Number": "EXP/2025-29/10",
+        "Supplier": "WoolWorks",
+        "Sales Order": "SO1004",
+        "Invoice No.": "INV3004",
+        "Vendor Batch": "VB241855",
+        "Shade": "Green",
+        "Roll No.": "D606",
+        "Bin No.": "BIN004",
+        "Quantity": "45.00M",
+        "Received Date": "25/05/2026",
+        "Brand": "TLWMAXX",
+        "LOT": "LOT004",
+        "LOT TKM": "TKM004",
+        "QR Code": "1100000000001955641"
     },
     {
-        "ROLL NO": "FR005",
-        "Fabric type": "Linen",
-        "length": 60.3,
-        "whegnt": 14.5,
-        "color": "Yellow",
-        "manufacturer": "NaturalFibers"
-    },
-    {
-        "ROLL NO": "FR006",
-        "Fabric type": "Cotton",
-        "length": 80.1,
-        "whegnt": 19.8,
-        "color": "Black",
-        "manufacturer": "TextileCorp"
-    },
-    {
-        "ROLL NO": "FR007",
-        "Fabric type": "Polyester",
-        "length": 35.6,
-        "whegnt": 8.9,
-        "color": "Purple",
-        "manufacturer": "SyntheticPlus"
-    },
-    {
-        "ROLL NO": "FR008",
-        "Fabric type": "Denim",
-        "length": 55.4,
-        "whegnt": 26.7,
-        "color": "Blue",
-        "manufacturer": "DenimCraft"
-    },
-    {
-        "ROLL NO": "FR009",
-        "Fabric type": "Velvet",
-        "length": 30.2,
-        "whegnt": 15.3,
-        "color": "Pink",
-        "manufacturer": "LuxuryTextiles"
-    },
-    {
-        "ROLL NO": "FR010",
-        "Fabric type": "Canvas",
-        "length": 90.0,
-        "whegnt": 35.2,
-        "color": "White",
-        "manufacturer": "HeavyDuty"
+        "Style": "TLWMAXX",
+        "Material": "Linen",
+        "Item Description": "Natural Linen Fabric",
+        "Composition": "100% Linen",
+        "PO Number": "EXP/2025-30/11",
+        "Supplier": "NaturalFibers",
+        "Sales Order": "SO1005",
+        "Invoice No.": "INV3005",
+        "Vendor Batch": "VB241856",
+        "Shade": "Yellow",
+        "Roll No.": "E607",
+        "Bin No.": "BIN005",
+        "Quantity": "60.30M",
+        "Received Date": "26/05/2026",
+        "Brand": "TLWMAXX",
+        "LOT": "LOT005",
+        "LOT TKM": "TKM005",
+        "QR Code": "1100000000001955642"
     }
 ];
 
@@ -90,11 +110,11 @@ const workbook = XLSX.utils.book_new();
 const worksheet = XLSX.utils.json_to_sheet(sampleData);
 
 // Add the worksheet to the workbook
-XLSX.utils.book_append_sheet(workbook, worksheet, 'Fabric Rolls');
+XLSX.utils.book_append_sheet(workbook, worksheet, 'Textile Rolls');
 
 // Write the file
-const outputPath = path.join(__dirname, 'sample-fabric-data.xlsx');
+const outputPath = path.join(__dirname, 'sample-textile-data.xlsx');
 XLSX.writeFile(workbook, outputPath);
 
-console.log(`Sample Excel file created at: ${outputPath}`);
-console.log('This file contains sample fabric roll data for testing the application.');
+console.log(`Sample textile roll Excel file created at: ${outputPath}`);
+console.log('This file contains sample textile roll data with all required sticker fields.');

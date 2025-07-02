@@ -97,73 +97,191 @@ class StickerMaker {
             this.stickersContainer.appendChild(stickerDiv);
         });
         
+        // Generate QR codes after DOM insertion
+        this.generateQRCodes();
+        
         // Enable the print button since we now have stickers
         this.printBtn.disabled = false;
         console.log('Print button enabled');
+    }
+    
+    async generateQRCodes() {
+        // Import QRCode dynamically (since it's a CommonJS module)
+        const QRCode = window.require('qrcode');
+        
+        const qrElements = document.querySelectorAll('.qr-code[data-qr-data]');
+        
+        for (const qrElement of qrElements) {
+            try {
+                const qrData = qrElement.dataset.qrData;
+                const qrCodeDataURL = await QRCode.toDataURL(qrData, {
+                    width: 60,
+                    height: 60,
+                    margin: 1,
+                    color: {
+                        dark: '#000000',
+                        light: '#FFFFFF'
+                    }
+                });
+                
+                qrElement.innerHTML = `<img src="${qrCodeDataURL}" style="width: 100%; height: 100%; object-fit: contain;" alt="QR Code">`;
+            } catch (error) {
+                console.error('Error generating QR code:', error);
+                qrElement.innerHTML = '⚠️';
+            }
+        }
     }
     
     createStickerElement(rowData, index) {
         // Create main sticker div
         const sticker = document.createElement('div');
         sticker.className = 'sticker';
-        sticker.setAttribute('data-fabric', rowData['Fabric type'] || '');
         
-        // Create sticker header
+        // Create sticker content
+        const content = document.createElement('div');
+        content.className = 'sticker-content';
+        
+        // Create header
         const header = document.createElement('div');
         header.className = 'sticker-header';
         
-        const rollNumber = document.createElement('div');
-        rollNumber.className = 'roll-number';
-        rollNumber.textContent = rowData['ROLL NO'] || `#${index + 1}`;
+        const companyName = document.createElement('div');
+        companyName.className = 'company-name';
+        companyName.textContent = 'TLWMAXX';
         
-        const fabricType = document.createElement('div');
-        fabricType.className = 'fabric-type';
-        fabricType.textContent = rowData['Fabric type'] || 'Unknown';
+        const plantInfo = document.createElement('div');
+        plantInfo.className = 'plant-info';
+        plantInfo.textContent = 'Plant\n3029';
+        plantInfo.style.whiteSpace = 'pre-line';
         
-        header.appendChild(rollNumber);
-        header.appendChild(fabricType);
+        header.appendChild(companyName);
+        header.appendChild(plantInfo);
         
-        // Create sticker body with grid layout
-        const body = document.createElement('div');
-        body.className = 'sticker-body';
+        // Create main data table
+        const table = document.createElement('div');
+        table.className = 'sticker-table';
         
-        // Length field
-        const lengthField = this.createFieldElement('Length', 
-            this.formatValue(rowData['length'], 'm'));
-        body.appendChild(lengthField);
+        // Table headers and data in the order shown in image
+        const tableData = [
+            { header: 'Style', value: rowData['Style'] || rowData['ROLL NO'] || `ST${index + 1}` },
+            { header: 'Material', value: rowData['Material'] || rowData['Fabric type'] || 'Cotton' },
+            { header: 'Item Description', value: rowData['Item Description'] || rowData['Fabric type'] || 'Fabric Roll' },
+            { header: 'Composition', value: rowData['Composition'] || '100% Cotton' },
+            { header: 'PO Number', value: rowData['PO Number'] || `PO${1000 + index}` },
+            { header: 'Supplier', value: rowData['Supplier'] || rowData['manufacturer'] || 'Supplier' },
+            { header: 'Sales Order', value: rowData['Sales Order'] || `SO${2000 + index}` },
+            { header: 'Invoice No.', value: rowData['Invoice No.'] || `INV${3000 + index}` },
+            { header: 'Vendor Batch', value: rowData['Vendor Batch'] || `VB${index + 1}` },
+            { header: 'Shade', value: rowData['Shade'] || rowData['color'] || 'Blue' },
+            { header: 'Roll No.', value: rowData['Roll No.'] || rowData['ROLL NO'] || `R${index + 1}` },
+            { header: 'Bin No.', value: rowData['Bin No.'] || `BIN${index + 1}` },
+            { header: 'Qty', value: this.formatQuantity(rowData['Quantity'] || rowData['length'] || '50') },
+            { header: 'Received Date', value: rowData['Received Date'] || new Date().toLocaleDateString('en-GB') },
+            { header: 'Brand', value: rowData['Brand'] || 'TLWMAXX' },
+            { header: 'LOT', value: rowData['LOT'] || `L${index + 1}` }
+        ];
         
-        // Weight field
-        const weightField = this.createFieldElement('Weight', 
-            this.formatValue(rowData['whegnt'], 'kg'));
-        body.appendChild(weightField);
+        // Add header row
+        tableData.forEach(item => {
+            const headerCell = document.createElement('div');
+            headerCell.className = 'table-cell header';
+            headerCell.textContent = item.header;
+            table.appendChild(headerCell);
+        });
         
-        // Color field with color indicator
-        const colorField = this.createFieldElement('Color', 
-            rowData['color'] || 'N/A', true);
-        body.appendChild(colorField);
+        // Add data row
+        tableData.forEach(item => {
+            const dataCell = document.createElement('div');
+            dataCell.className = 'table-cell data';
+            dataCell.textContent = item.value;
+            table.appendChild(dataCell);
+        });
         
-        // Additional field (could be any other column)
-        const additionalField = this.createAdditionalField(rowData);
-        if (additionalField) {
-            body.appendChild(additionalField);
-        }
+        // Create bottom section
+        const bottom = document.createElement('div');
+        bottom.className = 'sticker-bottom';
         
-        // Create sticker footer
+        // QR Code section
+        const qrSection = document.createElement('div');
+        qrSection.className = 'qr-section';
+        
+        const qrCode = document.createElement('div');
+        qrCode.className = 'qr-code';
+        
+        // Generate QR code data
+        const qrData = rowData['QR Code'] || `11000000000019556${38 + index}`;
+        
+        // Create QR code placeholder (we'll generate the actual QR code after DOM insertion)
+        qrCode.innerHTML = '📱'; // Placeholder until QR code is generated
+        qrCode.dataset.qrData = qrData;
+        
+        const qrNumber = document.createElement('div');
+        qrNumber.className = 'qr-number';
+        qrNumber.textContent = qrData;
+        
+        qrSection.appendChild(qrCode);
+        qrSection.appendChild(qrNumber);
+        
+        // LOT section
+        const lotSection = document.createElement('div');
+        lotSection.className = 'lot-section';
+        
+        const lotItems = [
+            { label: 'LOT', value: rowData['LOT'] || `L${index + 1}` },
+            { label: 'ELESSE', value: 'ELESSE' },
+            { label: 'LOT TKM', value: rowData['LOT TKM'] || `TKM${index + 1}` },
+            { label: '', value: '' }
+        ];
+        
+        lotItems.forEach(item => {
+            const lotCell = document.createElement('div');
+            lotCell.className = 'lot-cell';
+            
+            if (item.label) {
+                const label = document.createElement('div');
+                label.className = 'lot-label';
+                label.textContent = item.label;
+                lotCell.appendChild(label);
+            }
+            
+            if (item.value) {
+                const value = document.createElement('div');
+                value.className = 'lot-value';
+                value.textContent = item.value;
+                lotCell.appendChild(value);
+            }
+            
+            lotSection.appendChild(lotCell);
+        });
+        
+        // Date section
+        const dateSection = document.createElement('div');
+        dateSection.className = 'date-section';
+        dateSection.textContent = rowData['Received Date'] || new Date().toLocaleDateString('en-GB');
+        
+        bottom.appendChild(qrSection);
+        bottom.appendChild(lotSection);
+        bottom.appendChild(dateSection);
+        
+        // Create red footer
         const footer = document.createElement('div');
         footer.className = 'sticker-footer';
         
-        const manufacturer = document.createElement('div');
-        manufacturer.className = 'manufacturer';
-        manufacturer.textContent = rowData['manufacturer'] || 'Unknown Manufacturer';
-        
-        footer.appendChild(manufacturer);
-        
         // Assemble the sticker
-        sticker.appendChild(header);
-        sticker.appendChild(body);
+        content.appendChild(header);
+        content.appendChild(table);
+        content.appendChild(bottom);
+        
+        sticker.appendChild(content);
         sticker.appendChild(footer);
         
         return sticker;
+    }
+    
+    formatQuantity(value) {
+        if (!value) return '0';
+        const num = parseFloat(value);
+        return isNaN(num) ? value : `${num}M`;
     }
     
     createFieldElement(label, value, isColor = false) {

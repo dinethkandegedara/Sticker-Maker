@@ -23,25 +23,187 @@ body {
     display: flex;
     flex-wrap: wrap;
     justify-content: flex-start;
-    gap: 5mm;
+    gap: 10px;
     margin-top: 10mm;
+    max-width: 100%;
 }
 
-/* Individual Sticker Styles - 4 per A4 page layout */
+/* Individual Textile Roll Sticker Styles - Exact format from image */
 .sticker {
-    width: 180px;    /* Approximately 90mm for screen display */
-    height: 240px;   /* Approximately 133.5mm for screen display */
-    border: 2px solid #333;
-    border-radius: 8px;
-    padding: 8mm;
+    width: 148.5mm;  /* Half A4 length */
+    height: 74.25mm; /* Quarter A4 height */
+    border: 2px solid #000;
     background: white;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
     page-break-inside: avoid;
     position: relative;
     overflow: hidden;
+    padding: 0;
+    margin: 0;
+    font-family: Arial, sans-serif;
+}
+
+/* Main content area (white section) */
+.sticker-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 2mm;
+    background: white;
+}
+
+/* Header section with company info */
+.sticker-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 1mm;
+    padding-bottom: 1mm;
+    border-bottom: 1px solid #000;
+}
+
+.company-name {
+    font-size: 10px;
+    font-weight: bold;
+    color: #000;
+}
+
+.plant-info {
+    font-size: 8px;
+    color: #000;
+    text-align: right;
+}
+
+/* Main data table */
+.sticker-table {
+    flex: 1;
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    border: 1px solid #000;
+    font-size: 7px;
+    line-height: 1.1;
+}
+
+.table-cell {
+    border-right: 1px solid #000;
+    border-bottom: 1px solid #000;
+    padding: 1mm;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background: white;
+}
+
+.table-cell:nth-child(6n) {
+    border-right: none;
+}
+
+.table-cell.header {
+    background: #f5f5f5;
+    font-weight: bold;
+    text-align: center;
+    font-size: 6px;
+    writing-mode: vertical-rl;
+    text-orientation: mixed;
+    padding: 0.5mm;
+}
+
+.table-cell.data {
+    font-weight: bold;
+    text-align: center;
+    font-size: 8px;
+}
+
+/* Bottom section with QR code and additional info */
+.sticker-bottom {
+    display: grid;
+    grid-template-columns: 25mm 1fr 20mm;
+    gap: 1mm;
+    padding: 1mm 2mm;
+    border-top: 1px solid #000;
+    height: 18mm;
+}
+
+.qr-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.qr-code {
+    width: 15mm;
+    height: 15mm;
+    border: 1px solid #000;
+}
+
+.qr-number {
+    font-size: 6px;
+    font-weight: bold;
+    margin-top: 1mm;
+    text-align: center;
+}
+
+.lot-section {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    border: 1px solid #000;
+    font-size: 7px;
+}
+
+.lot-cell {
+    border-right: 1px solid #000;
+    border-bottom: 1px solid #000;
+    padding: 1mm;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.lot-cell:nth-child(2n) {
+    border-right: none;
+}
+
+.lot-cell:nth-child(3), .lot-cell:nth-child(4) {
+    border-bottom: none;
+}
+
+.lot-label {
+    font-weight: bold;
+    font-size: 6px;
+    margin-bottom: 0.5mm;
+}
+
+.lot-value {
+    font-weight: bold;
+    font-size: 8px;
+}
+
+.date-section {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid #000;
+    font-size: 8px;
+    font-weight: bold;
+}
+
+/* Red footer bar */
+.sticker-footer {
+    height: 6mm;
+    background: #d32f2f;
+    width: 100%;
+}
+
+/* Text rotation helper */
+.rotate-text {
+    writing-mode: vertical-rl;
+    text-orientation: mixed;
+    transform: rotate(180deg);
 }
 
 .sticker-header {
@@ -146,7 +308,7 @@ body {
     background: linear-gradient(135deg, #ffffff 0%, #faf5ff 100%);
 }
 
-/* Print-specific styles for A4 - 4 stickers per page */
+/* Print-specific styles for A4 - Textile Roll Stickers */
 @media print {
     * {
         -webkit-print-color-adjust: exact !important;
@@ -177,139 +339,101 @@ body {
     }
     
     .header {
-        display: none !important; /* Hide header when printing */
+        display: none !important;
     }
     
     .button-group {
-        display: none !important; /* Hide buttons when printing */
+        display: none !important;
     }
     
     .stickers-container {
         display: grid;
-        grid-template-columns: 1fr 1fr; /* 2 columns for 2×2 layout */
-        grid-template-rows: 1fr 1fr;    /* 2 rows for 2×2 layout */
-        gap: 10mm;
-        width: 190mm;  /* A4 width minus margins */
-        height: 277mm; /* A4 height minus margins */
+        grid-template-columns: 1fr 1fr; /* 2 columns */
+        grid-template-rows: 1fr 1fr 1fr 1fr; /* 4 rows for 8 stickers */
+        gap: 5mm;
+        width: 190mm;
+        height: 277mm;
         margin: 0;
         padding: 0;
     }
     
     .sticker {
-        width: 90mm;   /* (190mm - 10mm gap) / 2 = 90mm per sticker */
-        height: 133.5mm; /* (277mm - 10mm gap) / 2 = 133.5mm per sticker */
+        width: 148.5mm !important;
+        height: 74.25mm !important;
         border: 2px solid #000 !important;
-        border-radius: 8px;
-        padding: 6mm;
         background: white !important;
         box-shadow: none;
         margin: 0;
         break-inside: avoid !important;
         page-break-inside: avoid !important;
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-        overflow: hidden;
+        font-family: Arial, sans-serif !important;
     }
     
-    /* Force page break after every 4 stickers */
-    .sticker:nth-child(4n) {
+    /* Force page break after every 8 stickers */
+    .sticker:nth-child(8n) {
         page-break-after: always !important;
     }
     
-    /* Ensure no orphaned stickers */
-    .sticker:nth-child(4n-3) {
-        page-break-before: avoid !important;
-    }
-    
-    .sticker-header {
-        margin-bottom: 3mm;
-        padding-bottom: 2mm;
-        border-bottom: 1px solid #333;
-    }
-    
-    .roll-number {
-        font-size: 16px !important;
-        font-weight: bold;
-        color: #000 !important;
-        background: #f0f0f0 !important;
-        padding: 3px 6px;
-        border-radius: 4px;
-    }
-    
-    .fabric-type {
-        font-size: 12px !important;
-        color: #333 !important;
-        font-weight: 600;
-        text-transform: uppercase;
-    }
-    
-    .sticker-body {
-        flex: 1;
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 3mm;
-        margin: 2mm 0;
-    }
-    
-    .field-label {
-        font-size: 9px !important;
-        color: #666 !important;
-        text-transform: uppercase;
-        margin-bottom: 1mm;
-        font-weight: 500;
-    }
-    
-    .field-value {
-        font-size: 12px !important;
-        color: #000 !important;
-        font-weight: 600;
-        word-wrap: break-word;
-        overflow: visible;
+    .sticker-content {
+        background: white !important;
     }
     
     .sticker-footer {
-        margin-top: 2mm;
-        padding-top: 2mm;
-        border-top: 1px solid #333;
-        text-align: center;
+        background: #d32f2f !important;
+        height: 6mm !important;
     }
     
-    .manufacturer {
+    .company-name {
         font-size: 10px !important;
-        color: #333 !important;
-        font-style: italic;
+        color: #000 !important;
     }
     
-    .color-indicator {
-        width: 12px !important;
-        height: 12px !important;
+    .plant-info {
+        font-size: 8px !important;
+        color: #000 !important;
+    }
+    
+    .table-cell {
+        border-right: 1px solid #000 !important;
+        border-bottom: 1px solid #000 !important;
+        background: white !important;
+        font-size: 7px !important;
+    }
+    
+    .table-cell.header {
+        background: #f5f5f5 !important;
+        font-size: 6px !important;
+    }
+    
+    .table-cell.data {
+        font-size: 8px !important;
+    }
+    
+    .qr-code {
         border: 1px solid #000 !important;
-        border-radius: 50%;
-        display: inline-block;
-        margin-left: 3px;
-        vertical-align: middle;
     }
     
-    /* Special fabric type backgrounds for print */
-    .sticker[data-fabric="Cotton"] {
-        border-color: #38a169 !important;
-        background: #f0fff4 !important;
+    .qr-number {
+        font-size: 6px !important;
     }
     
-    .sticker[data-fabric="Polyester"] {
-        border-color: #3182ce !important;
-        background: #ebf8ff !important;
+    .lot-cell {
+        border-right: 1px solid #000 !important;
+        border-bottom: 1px solid #000 !important;
+        font-size: 7px !important;
     }
     
-    .sticker[data-fabric="Silk"] {
-        border-color: #d69e2e !important;
-        background: #fffbeb !important;
+    .lot-label {
+        font-size: 6px !important;
     }
     
-    .sticker[data-fabric="Wool"] {
-        border-color: #805ad5 !important;
-        background: #faf5ff !important;
+    .lot-value {
+        font-size: 8px !important;
+    }
+    
+    .date-section {
+        border: 1px solid #000 !important;
+        font-size: 8px !important;
     }
     
     /* Hide any loading or error messages */
