@@ -12,6 +12,209 @@ body {
 }
 
 .container {
+    max-width: 210mm; /* A4 width */
+    background: white;
+    min-height: 297mm; /* A4 height */
+    padding: 10mm;
+}
+
+/* Sticker Container - Flexbox layout for wrapping */
+.stickers-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    gap: 5mm;
+    margin-top: 10mm;
+}
+
+/* Individual Sticker Styles - A4 Based Dimensions */
+.sticker {
+    width: 148.5mm;  /* Half of A4 length (297mm / 2) */
+    height: 74.25mm; /* Quarter of A4 height (297mm / 4) */
+    border: 2px solid #333;
+    border-radius: 8px;
+    padding: 8mm;
+    background: white;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    page-break-inside: avoid;
+    position: relative;
+    overflow: hidden;
+}
+
+.sticker-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 4mm;
+    padding-bottom: 2mm;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.roll-number {
+    font-size: 18px;
+    font-weight: bold;
+    color: #2d3748;
+    background: #f7fafc;
+    padding: 4px 8px;
+    border-radius: 4px;
+}
+
+.fabric-type {
+    font-size: 14px;
+    color: #4a5568;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.sticker-body {
+    flex: 1;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3mm;
+    margin: 2mm 0;
+}
+
+.sticker-field {
+    display: flex;
+    flex-direction: column;
+}
+
+.field-label {
+    font-size: 10px;
+    color: #718096;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 1mm;
+    font-weight: 500;
+}
+
+.field-value {
+    font-size: 14px;
+    color: #2d3748;
+    font-weight: 600;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.sticker-footer {
+    margin-top: 2mm;
+    padding-top: 2mm;
+    border-top: 1px solid #e0e0e0;
+    text-align: center;
+}
+
+.manufacturer {
+    font-size: 12px;
+    color: #4a5568;
+    font-style: italic;
+}
+
+/* Color indicator for fabric color */
+.color-indicator {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    border: 2px solid #333;
+    display: inline-block;
+    margin-left: 4px;
+    vertical-align: middle;
+}
+
+/* Special formatting for different fabric types */
+.sticker[data-fabric="Cotton"] {
+    border-color: #38a169;
+    background: linear-gradient(135deg, #ffffff 0%, #f0fff4 100%);
+}
+
+.sticker[data-fabric="Polyester"] {
+    border-color: #3182ce;
+    background: linear-gradient(135deg, #ffffff 0%, #ebf8ff 100%);
+}
+
+.sticker[data-fabric="Silk"] {
+    border-color: #d69e2e;
+    background: linear-gradient(135deg, #ffffff 0%, #fffbeb 100%);
+}
+
+.sticker[data-fabric="Wool"] {
+    border-color: #805ad5;
+    background: linear-gradient(135deg, #ffffff 0%, #faf5ff 100%);
+}
+
+/* Print-specific styles */
+@media print {
+    body {
+        background: white;
+        font-size: 12pt;
+    }
+    
+    .container {
+        max-width: none;
+        margin: 0;
+        padding: 0;
+        box-shadow: none;
+    }
+    
+    .header {
+        display: none; /* Hide header when printing */
+    }
+    
+    .stickers-container {
+        margin-top: 0;
+        gap: 3mm;
+    }
+    
+    .sticker {
+        width: 148.5mm;
+        height: 74.25mm;
+        border: 2px solid #000;
+        box-shadow: none;
+        margin: 0;
+        break-inside: avoid;
+        page-break-inside: avoid;
+    }
+    
+    .load-btn {
+        display: none;
+    }
+    
+    /* Ensure exactly 2 stickers per row on A4 */
+    .sticker:nth-child(2n+1) {
+        margin-right: 5mm;
+    }
+    
+    /* Force page break after every 8 stickers (4 rows) */
+    .sticker:nth-child(8n) {
+        page-break-after: always;
+    }
+}
+
+/* Responsive design for screen viewing */
+@media screen and (max-width: 768px) {
+    .stickers-container {
+        gap: 3mm;
+    }
+    
+    .sticker {
+        width: 100%;
+        height: auto;
+        min-height: 74.25mm;
+    }
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    color: #333;
+}
+
+.container {
     max-width: 1400px;
     margin: 0 auto;
     padding: 20px;

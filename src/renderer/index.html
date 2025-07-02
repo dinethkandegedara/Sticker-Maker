@@ -3,55 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Excel Fabric Viewer</title>
+    <title>Sticker Maker</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <div class="container">
         <header class="header">
-            <h1>📊 Excel Fabric Roll Viewer</h1>
+            <h1>🏷️ Sticker Maker</h1>
             <button id="loadFileBtn" class="load-btn">
                 📁 Load Excel File
             </button>
         </header>
 
-        <div id="fileInfo" class="file-info" style="display: none;">
-            <div class="info-item">
-                <strong>File:</strong> <span id="fileName"></span>
+        <div id="stickersContainer" class="stickers-container">
+            <div class="no-data">
+                <div class="no-data-icon">📋</div>
+                <h3>No Data Loaded</h3>
+                <p>Click "Load Excel File" to get started</p>
             </div>
-            <div class="info-item">
-                <strong>Sheet:</strong> <span id="sheetName"></span>
-            </div>
-            <div class="info-item">
-                <strong>Records:</strong> <span id="recordCount"></span>
-            </div>
-        </div>
-
-        <div class="search-container">
-            <input type="text" id="searchInput" placeholder="🔍 Search fabric rolls..." disabled>
-            <select id="columnFilter" disabled>
-                <option value="">Filter by column...</option>
-            </select>
-        </div>
-
-        <div id="loadingSpinner" class="loading" style="display: none;">
-            <div class="spinner"></div>
-            <p>Loading Excel file...</p>
-        </div>
-
-        <div id="errorMessage" class="error-message" style="display: none;"></div>
-
-        <div id="noDataMessage" class="no-data" style="display: block;">
-            <div class="no-data-icon">📋</div>
-            <h3>No Data Loaded</h3>
-            <p>Click "Load Excel File" to get started</p>
-        </div>
-
-        <div class="table-container" id="tableContainer" style="display: none;">
-            <table id="dataTable">
-                <thead id="tableHeader"></thead>
-                <tbody id="tableBody"></tbody>
-            </table>
         </div>
     </div>
 
