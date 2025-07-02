@@ -262,7 +262,7 @@ body {
     
     @page {
         size: A4;
-        margin: 8mm 6mm; /* Reduced margins */
+        margin: 10mm 8mm; /* Increased margins for better spacing */
     }
     
     body {
@@ -271,19 +271,19 @@ body {
         margin: 0 !important;
         padding: 0 !important;
         width: 210mm;
-        height: 297mm;
-        overflow: hidden;
+        height: auto !important; /* Allow content to flow across pages */
+        overflow: visible !important; /* Allow overflow content to be printed */
     }
     
     .container {
         max-width: none !important;
-        width: 198mm !important; /* A4 width minus margins */
-        height: 281mm !important; /* A4 height minus margins */
+        width: 194mm !important; /* A4 width minus margins */
+        height: auto !important; /* Allow container to grow based on content */
         margin: 0 !important;
         padding: 0 !important;
         box-shadow: none !important;
         background: white !important;
-        overflow: hidden;
+        overflow: visible !important; /* Allow content to flow across pages */
     }
     
     .header {
@@ -296,20 +296,22 @@ body {
     
     .stickers-container {
         display: grid !important;
-        grid-template-columns: 96mm 96mm !important; /* 2 columns, exact fit */
-        grid-template-rows: repeat(auto-fit, 72mm) !important; /* Auto rows */
-        gap: 3mm 6mm !important; /* Reduced gap */
-        width: 198mm !important;
+        grid-template-columns: 94mm 94mm !important; /* Slightly smaller to prevent overflow */
+        grid-auto-rows: 70mm !important; /* Fixed height rows */
+        gap: 5mm !important; /* Consistent gap */
+        width: 194mm !important;
         height: auto !important;
         margin: 0 !important;
         padding: 0 !important;
         align-content: start !important;
-        justify-content: space-between !important;
+        justify-content: center !important;
+        page-break-before: auto !important; /* Standard page break behavior */
+        page-break-after: auto !important;
     }
     
     .sticker {
-        width: 95mm !important; /* Adjusted to fit 2 per row with gaps */
-        height: 70mm !important; /* Adjusted height for better proportions */
+        width: 92mm !important; /* Adjusted to fit 2 per row with gaps */
+        height: 68mm !important; /* Adjusted height for better proportions */
         border: 1px solid #000000 !important; /* Black border */
         background: white !important;
         box-shadow: none !important;
@@ -325,22 +327,23 @@ body {
     .sticker-header-title {
         background: #000000 !important;
         color: white !important;
-        margin: -1mm -1mm 1.5mm -1mm !important;
+        margin: -1mm -1mm 1mm -1mm !important;
         padding: 1.5mm 2mm !important;
         border-radius: 0 !important;
         box-shadow: none !important;
         display: flex !important;
         justify-content: space-between !important;
         align-items: center !important;
+        height: 5mm !important; /* Fixed height */
     }
     
     .header-text {
-        font-size: 9px !important;
+        font-size: 10px !important; /* Increased font size */
         font-weight: 600 !important;
     }
     
     .header-serial {
-        font-size: 9px !important;
+        font-size: 10px !important; /* Increased font size */
         background: transparent !important;
         color: white !important;
         padding: 0.5mm 1mm !important;
@@ -350,8 +353,11 @@ body {
     
     .sticker-content {
         background: white !important;
-        padding: 3mm !important;
-        overflow: hidden !important;
+        padding: 2mm !important; /* Reduced padding to fit more content */
+        overflow: visible !important; /* Allow content to be fully visible */
+        height: calc(100% - 3mm) !important; /* Account for footer */
+        display: flex !important;
+        flex-direction: column !important;
     }
     
     .sticker-data-table {
@@ -361,6 +367,8 @@ body {
         box-shadow: none !important;
         gap: 0 !important;
         grid-template-columns: repeat(3, 1fr) !important;
+        flex: 1 !important; /* Take up available space */
+        overflow: visible !important; /* Ensure content is visible */
     }
     
     .data-cell {
@@ -381,14 +389,14 @@ body {
     }
     
     .data-label {
-        font-size: 6px !important;
+        font-size: 7px !important; /* Increased font size */
         margin-bottom: 1mm !important;
         color: #000000 !important;
         font-weight: 600 !important;
     }
     
     .data-value {
-        font-size: 8px !important;
+        font-size: 10px !important; /* Increased font size */
         color: #000000 !important;
         line-height: 1.2 !important;
         font-weight: 600 !important;
@@ -396,15 +404,16 @@ body {
     
     .data-cell.important .data-label {
         color: #000000 !important;
-        font-size: 6px !important;
+        font-size: 7px !important; /* Increased font size */
         font-weight: 700 !important;
     }
     
     .data-cell.important .data-value {
         color: #000000 !important;
         font-weight: 700 !important;
-        font-size: 9px !important; /* Slightly larger but balanced */
-        text-decoration: underline !important;
+        font-size: 12px !important; /* Increased font size */
+        text-decoration: none !important; /* Removed underline */
+        font-weight: 800 !important; /* Made it bolder instead */
     }
     
     .sticker-footer {
@@ -417,6 +426,14 @@ body {
     /* Force page break after every 4 stickers (2x2 grid) */
     .sticker:nth-child(4n) {
         page-break-after: always !important;
+        margin-bottom: 5mm !important; /* Add space after each set of 4 stickers */
+    }
+    
+    /* Ensure each row of stickers stays together */
+    .sticker:nth-child(4n-1),
+    .sticker:nth-child(4n-2),
+    .sticker:nth-child(4n-3) {
+        page-break-after: avoid !important;
     }
     
     /* Hide any loading or error messages */
@@ -429,6 +446,15 @@ body {
     /* Hide status bar */
     .status-bar {
         display: none !important;
+    }
+    
+    /* Page break spacer for print */
+    .page-break-spacer {
+        display: block !important;
+        height: 0 !important;
+        page-break-before: always !important;
+        margin: 0 !important;
+        padding: 0 !important;
     }
 }
 

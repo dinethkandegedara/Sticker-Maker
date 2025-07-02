@@ -280,8 +280,20 @@ class StickerMaker {
         
         console.log(`Printing ${this.data.length} stickers...`);
         
-        // Call the browser's print function
-        window.print();
+        // Add a small delay to ensure CSS is applied before printing
+        setTimeout(() => {
+            // Ensure page breaks are properly set up
+            const pageCount = Math.ceil(this.data.length / 4);
+            console.log(`Printing ${pageCount} pages of stickers...`);
+            
+            // Force a reflow before printing
+            document.body.style.display = 'none';
+            document.body.offsetHeight; // Force reflow
+            document.body.style.display = '';
+            
+            // Call the browser's print function
+            window.print();
+        }, 300);
     }
     
     togglePrintPreview() {
@@ -349,6 +361,18 @@ class StickerMaker {
         this.stickerCount.textContent = `${pageCount} page${pageCount !== 1 ? 's' : ''} (4 stickers per page)`;
         
         this.statusBar.classList.remove('hidden');
+        
+        // Add spacers after every 4th sticker to ensure proper page breaks when printing
+        if (stickerCount > 4) {
+            const stickers = document.querySelectorAll('.sticker');
+            for (let i = 3; i < stickers.length; i += 4) {
+                if (stickers[i]) {
+                    const spacer = document.createElement('div');
+                    spacer.className = 'page-break-spacer';
+                    stickers[i].after(spacer);
+                }
+            }
+        }
     }
     
     hideStatusBar() {
