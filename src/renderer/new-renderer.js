@@ -175,9 +175,10 @@ class StickerMaker {
         dataTable.className = 'sticker-data';
         dataTable.style.height = '100%';
         dataTable.style.overflow = 'hidden';
+        dataTable.style.display = 'grid';
+        dataTable.style.gridTemplateColumns = '1fr 1fr';
         dataTable.style.border = '1px solid black';
-        dataTable.style.borderTop = '1px solid black';
-        dataTable.style.borderLeft = '1px solid black';
+        dataTable.style.borderRadius = '2px';
         
         // Define fields in the order they should appear - prioritizing most important info
         const fields = [
@@ -203,35 +204,45 @@ class StickerMaker {
         ];
         
         // Create data cells with optimized sizing - ensure they're all visible
-        fields.forEach(field => {
+        fields.forEach((field, index) => {
             const cell = document.createElement('div');
             cell.className = 'data-cell';
             cell.style.minHeight = '0.18in';
             cell.style.maxHeight = '0.18in';
-            cell.style.padding = '0.02in 0.04in';
+            cell.style.padding = '0.03in 0.05in';
             cell.style.overflow = 'hidden';
             cell.style.display = 'flex';
-            cell.style.flexDirection = 'row'; // Changed to row for side-by-side layout
+            cell.style.flexDirection = 'row';
             cell.style.alignItems = 'center';
-            cell.style.gap = '0.05in';
-            cell.style.borderRight = '1px solid black';
-            cell.style.borderBottom = '1px solid black';
-            cell.style.borderLeft = '1px solid black';
+            cell.style.gap = '0.06in';
             cell.style.backgroundColor = 'white';
+            cell.style.position = 'relative';
+            
+            // Smart border management - only add borders where needed
+            const isLeftColumn = index % 2 === 0;
+            const isLastRow = index >= fields.length - 2; // Last row for 2-column grid
+            
+            if (!isLeftColumn) {
+                cell.style.borderLeft = '1px solid #ccc'; // Lighter border between columns
+            }
+            if (!isLastRow) {
+                cell.style.borderBottom = '1px solid #ccc'; // Lighter border between rows
+            }
             
             const label = document.createElement('div');
             label.className = 'data-label';
             label.textContent = field.label + ':';
             label.style.fontSize = '7px';
-            label.style.lineHeight = '1';
+            label.style.lineHeight = '1.1';
             label.style.fontWeight = 'bold';
             label.style.textTransform = 'uppercase';
             label.style.flexShrink = '0';
-            label.style.width = '0.8in'; // Fixed width for labels
+            label.style.width = '0.85in';
             label.style.overflow = 'hidden';
             label.style.textOverflow = 'ellipsis';
             label.style.whiteSpace = 'nowrap';
-            label.style.color = 'black';
+            label.style.color = '#333';
+            label.style.letterSpacing = '0.2px';
             
             const value = document.createElement('div');
             value.className = 'data-value';
@@ -244,13 +255,13 @@ class StickerMaker {
             }
             value.textContent = fieldValue;
             value.style.fontSize = '8px';
-            value.style.lineHeight = '1.1';
+            value.style.lineHeight = '1.2';
             value.style.fontWeight = 'normal';
             value.style.overflow = 'hidden';
             value.style.textOverflow = 'ellipsis';
             value.style.whiteSpace = 'nowrap';
-            value.style.flex = '1'; // Take remaining space
-            value.style.color = 'black';
+            value.style.flex = '1';
+            value.style.color = '#000';
             
             cell.appendChild(label);
             cell.appendChild(value);
@@ -384,34 +395,52 @@ class StickerMaker {
                 header.style.padding = '0.08in 0.12in';
             }
             
-            // Force data cells to be visible with optimized side-by-side layout
+            // Force data cells to be visible with elegant border styling
             const cells = sticker.querySelectorAll('.data-cell');
-            cells.forEach(cell => {
-                cell.style.borderRight = '1px solid black';
-                cell.style.borderBottom = '1px solid black';
+            cells.forEach((cell, index) => {
                 cell.style.minHeight = '0.18in';
                 cell.style.maxHeight = '0.18in';
-                cell.style.padding = '0.02in 0.04in';
+                cell.style.padding = '0.03in 0.05in';
                 cell.style.overflow = 'hidden';
                 cell.style.display = 'flex';
                 cell.style.flexDirection = 'row';
                 cell.style.alignItems = 'center';
-                cell.style.gap = '0.05in';
+                cell.style.gap = '0.06in';
                 cell.style.backgroundColor = 'white';
+                cell.style.position = 'relative';
                 
-                // Optimize label and value sizes for side-by-side layout
+                // Smart border management
+                const isLeftColumn = index % 2 === 0;
+                const isLastRow = index >= cells.length - 2;
+                
+                // Clear any existing borders first
+                cell.style.border = 'none';
+                cell.style.borderLeft = 'none';
+                cell.style.borderRight = 'none';
+                cell.style.borderTop = 'none';
+                cell.style.borderBottom = 'none';
+                
+                if (!isLeftColumn) {
+                    cell.style.borderLeft = '1px solid #ccc';
+                }
+                if (!isLastRow) {
+                    cell.style.borderBottom = '1px solid #ccc';
+                }
+                
+                // Optimize label and value sizes for elegant layout
                 const label = cell.querySelector('.data-label');
                 if (label) {
                     label.style.fontSize = '7px';
-                    label.style.lineHeight = '1';
+                    label.style.lineHeight = '1.1';
                     label.style.fontWeight = 'bold';
                     label.style.textTransform = 'uppercase';
                     label.style.flexShrink = '0';
-                    label.style.width = '0.8in';
+                    label.style.width = '0.85in';
                     label.style.overflow = 'hidden';
                     label.style.textOverflow = 'ellipsis';
                     label.style.whiteSpace = 'nowrap';
-                    label.style.color = 'black';
+                    label.style.color = '#333';
+                    label.style.letterSpacing = '0.2px';
                     if (!label.textContent.endsWith(':')) {
                         label.textContent += ':';
                     }
@@ -420,22 +449,23 @@ class StickerMaker {
                 const value = cell.querySelector('.data-value');
                 if (value) {
                     value.style.fontSize = '8px';
-                    value.style.lineHeight = '1.1';
+                    value.style.lineHeight = '1.2';
                     value.style.fontWeight = 'normal';
                     value.style.overflow = 'hidden';
                     value.style.textOverflow = 'ellipsis';
                     value.style.whiteSpace = 'nowrap';
                     value.style.flex = '1';
-                    value.style.color = 'black';
+                    value.style.color = '#000';
                 }
             });
             
-            // Fix data table border
+            // Fix data table border with elegant styling
             const dataTable = sticker.querySelector('.sticker-data');
             if (dataTable) {
                 dataTable.style.border = '1px solid black';
-                dataTable.style.borderTop = '1px solid black';
-                dataTable.style.borderLeft = '1px solid black';
+                dataTable.style.borderRadius = '2px';
+                dataTable.style.display = 'grid';
+                dataTable.style.gridTemplateColumns = '1fr 1fr';
             }
             
             // Force footer to be smaller
@@ -505,9 +535,9 @@ class StickerMaker {
                 { label: 'GRN QTY(M/YD)', field: 'GRN QTY(M/YD)' }
             ];
             
-            // Create cell HTML
+            // Create cell HTML with elegant borders
             let cellsHtml = '';
-            fields.forEach(field => {
+            fields.forEach((field, index) => {
                 let fieldValue = rowData[field.field];
                 if (fieldValue === undefined || fieldValue === null || fieldValue === '') {
                     fieldValue = '-';
@@ -515,10 +545,22 @@ class StickerMaker {
                     fieldValue = fieldValue.trim();
                 }
                 
+                // Smart border management for print
+                const isLeftColumn = index % 2 === 0;
+                const isLastRow = index >= fields.length - 2;
+                
+                let borderStyles = '';
+                if (!isLeftColumn) {
+                    borderStyles += 'border-left:1px solid #ccc;';
+                }
+                if (!isLastRow) {
+                    borderStyles += 'border-bottom:1px solid #ccc;';
+                }
+                
                 cellsHtml += `
-                    <div class="data-cell" style="border-right:1px solid black;border-bottom:1px solid black;padding:0.02in 0.04in;min-height:0.18in;max-height:0.18in;display:flex;flex-direction:row;align-items:center;gap:0.05in;overflow:hidden;background-color:white;">
-                        <div class="data-label" style="font-size:7px;font-weight:bold;color:black;text-transform:uppercase;letter-spacing:0.3px;line-height:1;flex-shrink:0;width:0.8in;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${field.label}:</div>
-                        <div class="data-value" style="font-size:8px;font-weight:normal;color:black;line-height:1.1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:1;">${fieldValue}</div>
+                    <div class="data-cell" style="${borderStyles}padding:0.03in 0.05in;min-height:0.18in;max-height:0.18in;display:flex;flex-direction:row;align-items:center;gap:0.06in;overflow:hidden;background-color:white;position:relative;">
+                        <div class="data-label" style="font-size:7px;font-weight:bold;color:#333;text-transform:uppercase;letter-spacing:0.2px;line-height:1.1;flex-shrink:0;width:0.85in;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${field.label}:</div>
+                        <div class="data-value" style="font-size:8px;font-weight:normal;color:#000;line-height:1.2;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:1;">${fieldValue}</div>
                     </div>
                 `;
             });
@@ -533,7 +575,7 @@ class StickerMaker {
                             <div class="header-serial" style="font-size:11px;border:1px solid white;padding:1px 6px;color:white;">${rowData['Serial #'] || 'N/A'}</div>
                         </div>
                         <div class="sticker-content" style="flex:1;display:flex;flex-direction:column;padding:0.05in 0.08in;overflow:hidden;">
-                            <div class="sticker-data" style="display:grid;grid-template-columns:1fr 1fr;width:100%;border:1px solid black;height:100%;">
+                            <div class="sticker-data" style="display:grid;grid-template-columns:1fr 1fr;width:100%;border:1px solid black;border-radius:2px;height:100%;">
                                 ${cellsHtml}
                             </div>
                         </div>
