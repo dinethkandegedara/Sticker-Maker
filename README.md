@@ -8,7 +8,7 @@ A desktop application built with Node.js and Electron to generate print-ready, t
 - **Professional Print Output**: Clean, text-only stickers optimized for readability
 - **Excel Integration**: Load data from .xlsx, .xls, or .csv files
 - **Complete Data Display**: All 19 textile data fields clearly visible
-- **Print Layout**: 6 stickers per A4 page in landscape orientation
+- **Print Layout**: 1 sticker per 4×4 inch paper
 - **High Contrast**: Black text on white background for maximum readability
 - **Live Preview**: See exactly how your stickers will print
 - **Status Notifications**: Clear feedback on application state
@@ -88,8 +88,8 @@ npm run package
 3. **Preview and Print**
    - Click "Print Preview" to see how stickers will look when printed
    - Click "Print Stickers" to open your system's print dialog
-   - Use A4 paper, landscape orientation, and print at actual size (100% scale)
-   - Each A4 page will fit 6 stickers (3×2 grid)
+   - Use 4×4 inch paper and print at actual size (100% scale)
+   - Each page will fit exactly 1 sticker, perfectly sized for the paper
 
 ## File Structure
 
@@ -100,9 +100,9 @@ sticker-maker/
 │   ├── preload.js           # Preload script for security
 │   └── renderer/
 │       ├── index.html       # Main UI
-│       ├── styles.css       # Print styling
-│       ├── modern-styles.css # Modern UI styling
-│       └── renderer.js      # Frontend logic
+│       ├── new-styles.css   # Current print and UI styling
+│       ├── modern-styles.css # Modern UI styling components
+│       └── new-renderer.js  # Current frontend logic
 ├── teejay-sample-data.xlsx  # Sample Excel data
 ├── package.json             # Dependencies and scripts
 └── README.md                # This file
@@ -117,11 +117,11 @@ sticker-maker/
 - **Status Notifications**: Toast messages and status bar indicators
 
 ### Sticker Design
-- **Layout**: Clean 3-column grid showing all 19 fields
+- **Layout**: Clean 2-column grid showing all 19 fields
 - **Print Output**: Black text on white background (no colors in print)
-- **Fonts**: Standardized sizes (9px for labels, 11px for values)
+- **Fonts**: Standardized sizes (11px for labels, 13-15px for values)
 - **Header**: Simple black bar with title and serial number
-- **Print Layout**: 6 stickers per A4 page in landscape orientation (3×2 grid)
+- **Print Layout**: 1 sticker per 4×4 inch paper
 - **Fields**: All fields from Excel clearly labeled and visible
 
 ## Technologies Used
@@ -146,9 +146,10 @@ sticker-maker/
    - Check that Node.js is properly installed
 
 3. **Print layout issues**
-   - Ensure you're using A4 paper in landscape orientation
+   - Ensure you're using 4×4 inch paper
    - Set print scale to 100% (actual size)
    - Disable headers and footers in your browser's print dialog
+   - Make sure your printer is configured for 4×4 inch paper size
 
 4. **Performance with large files**
    - The application can handle thousands of rows
@@ -164,3 +165,24 @@ If you encounter any issues:
 ## License
 
 MIT License - feel free to modify and distribute as needed.
+
+## Recent Updates
+
+### Version 1.1.0 - Latest
+- Completely redesigned sticker layout with professional 2-column format
+- Enhanced header with clear title and serial number display
+- Field labels now clearly separated from values for better readability
+- Perfect 4×4 inch print sizing (one sticker per page)
+- Black and white print output optimized for textile labels
+- All fields from Excel are displayed in a consistent, organized format
+- Improved print CSS to ensure proper page breaks and sizing
+- Header and footer elements stay in the right position
+
+### Version 1.0.0 - July 3, 2025
+- Optimized print layout for 4×4 inch paper (1 sticker per page)
+- Improved text visibility and alignment in stickers
+- Enhanced field organization with most important data at the top
+- Fixed font size issues for better readability
+- Added proper field formatting for numbers, dates, and units
+- Implemented perfect page breaks between stickers
+- Updated installer configuration for easier distribution

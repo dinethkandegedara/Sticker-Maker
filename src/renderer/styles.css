@@ -1,1135 +1,268 @@
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
+/* Reset and base styles */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: Arial, sans-serif; background: #fff; color: #000; }
 
-body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    min-height: 100vh;
-    color: #333;
-}
-
-.container {
-    max-width: 210mm; /* A4 width */
-    background: white;
-    min-height: 297mm; /* A4 height */
-    padding: 10mm;
-}
-
-/* Sticker Container - Better organized layout for larger stickers */
 .stickers-container {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-    gap: 30px;
-    margin-top: 10mm;
-    max-width: 100%;
-    padding: 30px;
-    justify-content: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0;
+  margin: 0;
 }
 
-/* Individual Textile Roll Sticker Styles - Large fonts for fabric roll readability */
+.sticker-page {
+  width: 4in;
+  height: 4in;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  page-break-after: always;
+  page-break-inside: avoid;
+  break-after: page;
+  background: #fff;
+  margin-bottom: 30px;
+}
+
 .sticker {
-    width: 360px;  /* Standardized width */
-    height: 260px; /* Balanced height */
-    border: 1px solid #000000;
-    background: #ffffff;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    display: flex;
-    flex-direction: column;
-    page-break-inside: avoid;
-    position: relative;
-    overflow: hidden;
-    padding: 0;
-    margin: 0;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    border-radius: 0;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-
-.sticker:hover {
-    transform: scale(1.02);
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
-}
-
-/* Main content area - Simple and readable */
-.sticker-content {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    padding: 12px; /* Balanced padding */
-    background: #ffffff;
-    overflow: hidden;
-}
-
-/* Plain data table - Balanced fonts for fabric roll readability */
-.sticker-data-table {
-    flex: 1;
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 2px; /* Consistent small gap */
-    font-size: 14px; /* Standard size for better consistency */
-    line-height: 1.4;
-    border: 1px solid #000000;
-    border-radius: 0;
-    overflow: hidden;
-}
-
-.data-row {
-    display: contents;
-}
-
-.data-cell {
-    padding: 6px 8px; /* Balanced padding */
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    border-bottom: 1px solid #000000;
-    background: white;
-    min-height: 38px; /* Consistent height */
-}
-
-.data-cell:nth-child(3n-2) {
-    background: #ffffff;
-    border-right: 1px solid #000000;
-}
-
-.data-cell:nth-child(3n-1) {
-    background: white;
-    border-right: 1px solid #000000;
-}
-
-.data-cell:nth-child(3n) {
-    background: #ffffff;
-}
-
-.data-label {
-    font-weight: 600;
-    font-size: 10px; /* Standardized smaller size */
-    color: #000000;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    margin-bottom: 3px;
-}
-
-.data-value {
-    font-size: 12px; /* Standardized balanced size */
-    color: #000000;
-    font-weight: 600;
-    word-break: break-word;
-    line-height: 1.3;
-}
-
-/* Highlight important fields - Balanced fonts */
-.data-cell.important .data-label {
-    color: #000000;
-    font-size: 10px; /* Same size, just bolder */
-    font-weight: 700;
-}
-
-.data-cell.important .data-value {
-    color: #000000;
-    font-weight: 700;
-    font-size: 14px; /* Slightly larger but balanced */
-}
-
-/* Footer bar - black for text-only design */
-.sticker-footer {
-    height: 8px; /* Thinner footer bar */
-    background: #000000;
-    width: 100%;
-    box-shadow: none;
-    margin-top: auto;
-}
-
-/* Text rotation helper */
-.rotate-text {
-    writing-mode: vertical-rl;
-    text-orientation: mixed;
-    transform: rotate(180deg);
+  width: 3.8in;
+  height: 3.8in;
+  border: 1.5px solid #000;
+  background: #fff;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: stretch;
+  position: relative;
 }
 
 .sticker-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 4mm;
-    padding-bottom: 2mm;
-    border-bottom: 1px solid #e0e0e0;
+  background: #000;
+  color: #fff;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.15in 0.2in;
+  font-size: 15px;
+  font-weight: bold;
+  height: 0.5in;
+  border-bottom: 1.5px solid #000;
+}
+.header-title { text-transform: uppercase; font-size: 15px; font-weight: bold; }
+.header-serial { font-size: 14px; border: 1px solid #fff; padding: 2px 10px; }
+
+.sticker-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 0.1in 0.15in 0.1in 0.15in;
 }
 
-.roll-number {
-    font-size: 18px;
-    font-weight: bold;
-    color: #2d3748;
-    background: #f7fafc;
-    padding: 4px 8px;
-    border-radius: 4px;
+.sticker-data {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  width: 100%;
+  border-left: 1px solid #000;
+  border-top: 1px solid #000;
 }
-
-.fabric-type {
-    font-size: 14px;
-    color: #4a5568;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
+.data-cell {
+  border-right: 1px solid #000;
+  border-bottom: 1px solid #000;
+  padding: 0.09in 0.08in 0.07in 0.08in;
+  min-height: 0.32in;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
-
-.sticker-body {
-    flex: 1;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 3mm;
-    margin: 2mm 0;
+.data-label {
+  font-size: 11px;
+  font-weight: bold;
+  color: #000;
+  margin-bottom: 2px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
-
-.sticker-field {
-    display: flex;
-    flex-direction: column;
+.data-value {
+  font-size: 13px;
+  font-weight: normal;
+  color: #000;
+  word-break: break-word;
 }
-
-.field-label {
-    font-size: 10px;
-    color: #718096;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    margin-bottom: 1mm;
-    font-weight: 500;
-}
-
-.field-value {
-    font-size: 14px;
-    color: #2d3748;
-    font-weight: 600;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-}
-
 .sticker-footer {
-    margin-top: 2mm;
-    padding-top: 2mm;
-    border-top: 1px solid #e0e0e0;
-    text-align: center;
+  height: 0.13in;
+  background: #000;
+  width: 100%;
+  margin-top: auto;
 }
 
-.manufacturer {
-    font-size: 12px;
-    color: #4a5568;
-    font-style: italic;
-}
-
-/* Color indicator for fabric color */
-.color-indicator {
-    width: 16px;
-    height: 16px;
-    border-radius: 50%;
-    border: 2px solid #333;
-    display: inline-block;
-    margin-left: 4px;
-    vertical-align: middle;
-}
-
-/* Special formatting for different fabric types */
-.sticker[data-fabric="Cotton"] {
-    border-color: #38a169;
-    background: linear-gradient(135deg, #ffffff 0%, #f0fff4 100%);
-}
-
-.sticker[data-fabric="Polyester"] {
-    border-color: #3182ce;
-    background: linear-gradient(135deg, #ffffff 0%, #ebf8ff 100%);
-}
-
-.sticker[data-fabric="Silk"] {
-    border-color: #d69e2e;
-    background: linear-gradient(135deg, #ffffff 0%, #fffbeb 100%);
-}
-
-.sticker[data-fabric="Wool"] {
-    border-color: #805ad5;
-    background: linear-gradient(135deg, #ffffff 0%, #faf5ff 100%);
-}
-
-/* Print-specific styles for A4 - Textile Roll Stickers */
+/* Comprehensive print styles - consolidated for consistent printing */
 @media print {
-    * {
-        -webkit-print-color-adjust: exact !important;
-        print-color-adjust: exact !important;
-        box-sizing: border-box !important;
-    }
-    
-    @page {
-        size: A4 landscape; /* Changed to landscape orientation */
-        margin: 5mm; /* Reduced margins to use more of the page */
-    }
-    
-    body {
-        background: white !important;
-        font-size: 12pt;
-        margin: 0 !important;
-        padding: 0 !important;
-        width: 297mm; /* A4 height becomes width in landscape */
-        height: auto !important; /* Allow content to flow across pages */
-        overflow: visible !important; /* Allow overflow content to be printed */
-    }
-    
-    .container {
-        max-width: none !important;
-        width: 287mm !important; /* A4 landscape width minus margins */
-        height: auto !important; /* Allow container to grow based on content */
-        margin: 0 !important;
-        padding: 0 !important;
-        box-shadow: none !important;
-        background: white !important;
-        overflow: visible !important; /* Allow content to flow across pages */
-    }
-    
-    .header {
-        display: none !important;
-    }
-    
-    .button-group {
-        display: none !important;
-    }
-    
-    .stickers-container {
-        display: grid !important;
-        grid-template-columns: repeat(3, 94mm) !important; /* 3 columns for landscape */
-        grid-auto-rows: 95mm !important; /* 2 rows (A4 width divided by 2) */
-        gap: 2.5mm !important; /* Consistent gap */
-        width: 287mm !important; /* Use full A4 landscape width */
-        height: auto !important;
-        margin: 0 !important;
-        padding: 0 !important;
-        align-content: start !important;
-        justify-content: center !important;
-        grid-auto-flow: row !important;
-        grid-row-gap: 3mm !important;
-    }
-    
-    .sticker {
-        width: 93mm !important; /* Wider for landscape orientation */
-        height: 94mm !important; /* Shorter height for 2 rows per landscape page */
-        border: 1px solid #000000 !important;
-        background: white !important;
-        box-shadow: none !important;
-        margin: 0 !important;
-        padding: 0 !important;
-        break-inside: avoid !important;
-        page-break-inside: avoid !important;
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif !important;
-        overflow: hidden !important;
-        border-radius: 0 !important;
-    }
-    
-    .sticker-header-title {
-        background: #000000 !important;
-        color: white !important;
-        margin: -1mm -1mm 1mm -1mm !important;
-        padding: 2mm 3mm !important; /* Increased padding for better appearance */
-        border-radius: 0 !important;
-        box-shadow: none !important;
-        display: flex !important;
-        justify-content: space-between !important;
-        align-items: center !important;
-        height: 7mm !important; /* Increased height for better appearance */
-    }
-    
-    .header-text {
-        font-size: 10px !important; /* Increased for landscape */
-        font-weight: 600 !important;
-    }
-    
-    .header-serial {
-        font-size: 10px !important; /* Increased for landscape */
-        background: transparent !important;
-        color: white !important;
-        padding: 0.5mm 1mm !important;
-        border-radius: 0 !important;
-        border: 0.5px solid #ffffff !important;
-    }
-    
-    .sticker-content {
-        background: white !important;
-        padding: 2mm !important; /* Increased padding for better appearance */
-        overflow: visible !important; /* Allow content to be fully visible */
-        height: calc(100% - 3mm) !important; /* Account for footer */
-        display: flex !important;
-        flex-direction: column !important;
-    }
-    
-    .sticker-data-table {
-        font-size: 8px !important;
-        border: 1px solid #000000 !important;
-        border-radius: 0 !important;
-        box-shadow: none !important;
-        gap: 0 !important;
-        grid-template-columns: repeat(3, 1fr) !important; /* Back to 3 columns for wider landscape stickers */
-        flex: 1 !important; /* Take up available space */
-        overflow: visible !important; /* Ensure content is visible */
-    }
-    
-    .data-cell {
-        min-height: 8mm !important; /* Increased height */
-        padding: 1.5mm 2mm !important; /* Increased padding */
-        border-bottom: 0.5px solid #000000 !important;
-    }
-    
-    .data-cell:nth-child(3n-2),
-    .data-cell:nth-child(3n-1),
-    .data-cell:nth-child(3n) {
-        background: #ffffff !important;
-        border-right: 0.5px solid #000000 !important;
-    }
-    
-    .data-cell:nth-child(3n) {
-        border-right: none !important;
-    }
-    
-    .data-label {
-        font-size: 9px !important; /* Increased for better readability in landscape */
-        margin-bottom: 1mm !important;
-        color: #000000 !important;
-        font-weight: 600 !important;
-    }
-    
-    .data-value {
-        font-size: 11px !important; /* Increased for better readability in landscape */
-        color: #000000 !important;
-        line-height: 1.2 !important;
-        font-weight: 600 !important;
-    }
-    
-    .data-cell.important .data-label {
-        color: #000000 !important;
-        font-size: 9px !important; /* Same as regular labels */
-        font-weight: 700 !important;
-    }
-    
-    .data-cell.important .data-value {
-        color: #000000 !important;
-        font-weight: 700 !important;
-        font-size: 11px !important; /* Same as regular values */
-        text-decoration: none !important;
-        font-weight: 800 !important; /* Just make it bolder */
-    }
-    
-    .sticker-footer {
-        background: #000000 !important;
-        height: 3mm !important;
-        box-shadow: none !important;
-        margin-top: auto !important;
-    }
-    
-    /* Remove automatic page breaks from CSS since we're using explicit spacers */
-    .sticker {
-        page-break-inside: avoid !important;
-        break-inside: avoid !important;
-        margin-bottom: 2.5mm !important; /* Consistent spacing between stickers */
-    }
-    
-    /* Hide any loading or error messages */
-    .loading,
-    .error-message,
-    .no-data {
-        display: none !important;
-    }
-    
-    /* Hide status bar */
-    .status-bar {
-        display: none !important;
-    }
-    
-    /* Page break spacer for print */
-    .page-break-spacer {
-        display: block !important;
-        height: 0 !important;
-        width: 100% !important;
-        page-break-before: always !important;
-        page-break-after: avoid !important;
-        margin: 0 !important;
-        padding: 0 !important;
-        clear: both !important;
-        visibility: hidden !important;
-        position: relative !important;
-    }
-    
-    /* Ensure stickers are properly grouped for printing */
-    .stickers-container {
-        display: flex !important;
-        flex-wrap: wrap !important;
-        justify-content: space-between !important;
-    }
-    
-    .sticker {
-        flex: 0 0 94mm !important;
-        margin: 0 0 2mm 0 !important;
-        page-break-inside: avoid !important;
-    }
-    
-    /* Create a row wrapper to properly group stickers */
-    .stickers-container::after {
-        content: "";
-        flex: auto;
-    }
-}
-
-/* Page wrapper to group stickers for printing */
-.sticker-page-wrapper {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-around;
-    width: 100%;
-    margin-bottom: 5mm;
-}
-
-@media print {
-    .sticker-page-wrapper {
-        page-break-after: always !important;
-        break-after: page !important;
-        display: grid !important;
-        grid-template-columns: repeat(3, 1fr) !important;
-        grid-template-rows: repeat(2, 1fr) !important;
-        gap: 2mm !important;
-        margin: 0 !important;
-        padding: 0 !important;
-        width: 100% !important;
-        height: 200mm !important;
-    }
-    
-    /* Hide the last page wrapper's page break if it's the last one */
-    .sticker-page-wrapper:last-child {
-        page-break-after: avoid !important;
-        break-after: avoid !important;
-    }
-}
-
-/* Responsive design for screen viewing */
-@media screen and (max-width: 768px) {
-    .container {
-        padding: 10px;
-    }
-    
-    .header {
-        flex-direction: column;
-        text-align: center;
-        gap: 10px;
-    }
-    
-    .header h1 {
-        font-size: 1.5rem;
-    }
-    
-    .button-group {
-        flex-direction: column;
-        width: 100%;
-        gap: 10px;
-    }
-    
-    .load-btn, .preview-btn, .print-btn {
-        width: 100%;
-    }
-    
-    .stickers-container {
-        grid-template-columns: 1fr;
-        gap: 15px;
-        padding: 10px;
-    }
-    
-    .sticker {
-        width: 100%;
-        max-width: 350px;
-        height: 175px;
-        margin: 0 auto;
-    }
-}
-
-@media screen and (max-width: 480px) {
-    .container {
-        padding: 5px;
-    }
-    
-    .sticker {
-        width: 100%;
-        height: 160px;
-    }
-    
-    .sticker-content {
-        padding: 4px;
-    }
-    
-    .data-label {
-        font-size: 6px;
-    }
-    
-    .data-value {
-        font-size: 7px;
-    }
-    
-    .data-row {
-        min-height: 14px;
-    }
-}
-
-body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    min-height: 100vh;
-    color: #333;
-}
-
-.container {
-    max-width: 1400px;
-    margin: 0 auto;
-    padding: 20px;
-    min-height: 100vh;
-}
-
-.header {
-    background: white;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    margin-bottom: 20px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 15px;
-}
-
-.header h1 {
-    color: #4a5568;
-    font-size: 2rem;
-    font-weight: 600;
-}
-
-.load-btn {
-    background: #000000;
-    color: white;
-    border: none;
-    padding: 12px 24px;
-    border-radius: 8px;
-    font-size: 16px;
-    font-weight: 500;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-}
-
-.load-btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-}
-
-.load-btn:active {
-    transform: translateY(0);
-}
-
-.file-info {
-    background: white;
-    padding: 15px 20px;
-    border-radius: 8px;
-    margin-bottom: 20px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    display: flex;
-    gap: 30px;
-    flex-wrap: wrap;
-}
-
-.info-item {
-    color: #4a5568;
-}
-
-.info-item strong {
-    color: #2d3748;
-}
-
-.search-container {
-    background: white;
-    padding: 15px 20px;
-    border-radius: 8px;
-    margin-bottom: 20px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    display: flex;
-    gap: 15px;
-    flex-wrap: wrap;
-}
-
-#searchInput {
-    flex: 1;
-    min-width: 250px;
-    padding: 10px 15px;
-    border: 2px solid #e2e8f0;
-    border-radius: 6px;
-    font-size: 14px;
-    transition: border-color 0.3s ease;
-}
-
-#searchInput:focus {
-    outline: none;
-    border-color: #667eea;
-}
-
-#searchInput:disabled {
-    background-color: #f7fafc;
-    color: #a0aec0;
-}
-
-#columnFilter {
-    padding: 10px 15px;
-    border: 2px solid #e2e8f0;
-    border-radius: 6px;
-    font-size: 14px;
-    background: white;
-    min-width: 180px;
-    cursor: pointer;
-}
-
-#columnFilter:disabled {
-    background-color: #f7fafc;
-    color: #a0aec0;
-    cursor: not-allowed;
-}
-
-.loading {
-    text-align: center;
-    padding: 40px;
-    background: white;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.spinner {
-    width: 40px;
-    height: 40px;
-    border: 4px solid #f3f3f3;
-    border-top: 4px solid #000000;
-    border-radius: 50%;
-    animation: spin 1s linear infinite;
-    margin: 0 auto 15px;
-}
-
-@keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-}
-
-.error-message {
-    background: #ffffff;
-    color: #000000;
-    padding: 15px 20px;
-    border-radius: 8px;
-    margin-bottom: 20px;
-    border-left: 4px solid #000000;
-}
-
-.no-data {
-    text-align: center;
-    padding: 60px 20px;
-    background: white;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.no-data-icon {
-    font-size: 4rem;
-    margin-bottom: 20px;
-}
-
-.no-data h3 {
-    color: #4a5568;
-    margin-bottom: 10px;
-    font-size: 1.5rem;
-}
-
-.no-data p {
-    color: #718096;
-    font-size: 1.1rem;
-}
-
-.table-container {
-    background: white;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    overflow: hidden;
-}
-
-#dataTable {
-    width: 100%;
-    border-collapse: collapse;
-    font-size: 14px;
-}
-
-#dataTable th {
-    background: #000000;
-    color: white;
-    padding: 15px 12px;
-    text-align: left;
-    font-weight: 600;
-    position: sticky;
-    top: 0;
-    z-index: 10;
-}
-
-#dataTable td {
-    padding: 12px;
-    border-bottom: 1px solid #e2e8f0;
-    vertical-align: top;
-}
-
-#dataTable tbody tr:hover {
-    background-color: #f7fafc;
-}
-
-#dataTable tbody tr:nth-child(even) {
-    background-color: #fafafa;
-}
-
-#dataTable tbody tr:nth-child(even):hover {
-    background-color: #f0f4f8;
-}
-
-/* Responsive design */
-@media (max-width: 768px) {
-    .container {
-        padding: 10px;
-    }
-    
-    .header {
-        text-align: center;
-        flex-direction: column;
-    }
-    
-    .header h1 {
-        font-size: 1.5rem;
-    }
-    
-    .file-info {
-        flex-direction: column;
-        gap: 10px;
-    }
-    
-    .search-container {
-        flex-direction: column;
-    }
-    
-    #searchInput,
-    #columnFilter {
-        min-width: 100%;
-    }
-    
-    .table-container {
-        overflow-x: auto;
-    }
-    
-    #dataTable {
-        min-width: 600px;
-    }
-}
-
-/* Scrollbar styling */
-::-webkit-scrollbar {
-    width: 8px;
-    height: 8px;
-}
-
-::-webkit-scrollbar-track {
-    background: #f1f1f1;
-}
-
-::-webkit-scrollbar-thumb {
-    background: #c1c1c1;
-    border-radius: 4px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-    background: #a1a1a1;
-}
-
-.button-group {
-    display: flex;
-    gap: 15px;
-    flex-wrap: wrap;
-    align-items: center;
-}
-
-.print-btn {
-    background: #000000;
-    color: white;
-    border: none;
-    padding: 12px 24px;
-    border-radius: 8px;
-    font-size: 16px;
-    font-weight: 500;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-}
-
-.print-btn:hover:not(:disabled) {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-}
-
-.print-btn:active {
-    transform: translateY(0);
-}
-
-.print-btn:disabled {
-    background: #e2e8f0;
-    color: #a0aec0;
-    cursor: not-allowed;
-    transform: none;
-    box-shadow: none;
-}
-
-.preview-btn {
-    background: #000000;
-    color: white;
-    border: none;
-    padding: 12px 24px;
-    border-radius: 8px;
-    font-size: 16px;
-    font-weight: 500;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-}
-
-.preview-btn:hover:not(:disabled) {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-}
-
-.preview-btn:active {
-    transform: translateY(0);
-}
-
-.preview-btn:disabled {
-    background: #e2e8f0;
-    color: #a0aec0;
-    cursor: not-allowed;
-    transform: none;
-    box-shadow: none;
-}
-
-/* Print Preview Mode */
-.print-preview {
-    background: #ffffff !important;
-    padding: 20px !important;
-}
-
-.print-preview .container {
-    max-width: none !important;
-    width: 210mm !important;
-    height: auto !important;
-    background: white !important;
-    margin: 0 auto !important;
-    padding: 8mm 6mm !important;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1) !important;
-    border-radius: 8px !important;
-}
-
-.print-preview .header {
-    background: #ffffff !important;
-    color: #000000 !important;
-    margin-bottom: 20px !important;
-    border-radius: 6px !important;
-}
-
-.print-preview .stickers-container {
-    display: grid !important;
-    grid-template-columns: 96mm 96mm !important;
-    grid-template-rows: repeat(auto-fit, 72mm) !important;
-    gap: 3mm 6mm !important;
-    width: 198mm !important;
-    height: auto !important;
+  /* !important tags used throughout to override browser defaults */
+  @page {
+    size: 4in 4in !important; /* Force 4x4 inch page size */
+    margin: 0 !important; /* No margins */
+  }
+  
+  * {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+    box-sizing: border-box !important;
+  }
+  
+  body, html {
+    background: #fff !important;
+    width: 4in !important;
+    height: 4in !important;
     margin: 0 !important;
     padding: 0 !important;
-    align-content: start !important;
+    overflow: visible !important; /* Changed to visible to prevent content clipping */
+  }
+  
+  /* Force hide all UI elements */
+  .container, header, .header, .button-group, .no-data, .status-bar, 
+  .temp-status, .page-indicator, .info-box, .loading, .error-message,
+  button, .button, .buttons, nav, footer, #statusBar, .trouble-btn {
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+    height: 0 !important;
+    overflow: hidden !important;
+    position: absolute !important;
+    z-index: -999 !important;
+  }
+  
+  /* Print container - MUST be displayed */
+  .stickers-container {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    width: 4in !important;
+    height: auto !important;
+    background: #fff !important;
+    overflow: visible !important;
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+  }
+  
+  /* Individual page setup */
+  .sticker-page {
+    width: 4in !important;
+    height: 4in !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    page-break-after: always !important;
+    page-break-before: auto !important;
+    page-break-inside: avoid !important;
+    break-after: page !important;
+    break-before: auto !important;
+    display: block !important; /* Changed to block for more reliable printing */
+    position: relative !important;
+    background: #fff !important;
+    overflow: hidden !important;
+  }
+  
+  /* Sticker itself */
+  .sticker {
+    display: flex !important;
+    flex-direction: column !important;
+    width: 3.8in !important;
+    height: 3.8in !important;
+    margin: 0.1in auto !important; /* Center in the page */
+    border: 1.5px solid #000 !important;
+    box-shadow: none !important;
+    position: relative !important;
+    background: #fff !important;
+    overflow: hidden !important;
+  }
+  
+  /* Black & white elements */
+  .sticker-header {
+    background-color: #000 !important;
+    color: #fff !important;
+    display: flex !important;
     justify-content: space-between !important;
-}
-
-.print-preview .sticker {
-    width: 96mm !important;
-    height: 72mm !important;
-    border: 1px solid #000 !important;
-    border-radius: 0 !important;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1) !important;
-    transform: none !important;
-    font-size: 10px !important;
-}
-
-.print-preview .sticker:hover {
-    transform: none !important;
-}    .print-preview .sticker-content {
-        padding: 4px !important;
-        height: calc(72mm - 6mm) !important;
-        overflow: hidden !important;
-    }
-    
-    .print-preview .sticker-data-table {
-        font-size: 5px !important;
-    }
-    
-    .print-preview .data-row {
-        min-height: 3mm !important;
-    }
-    
-    .print-preview .data-label {
-        font-size: 4px !important;
-        padding: 0.5mm !important;
-    }
-    
-    .print-preview .data-value {
-        font-size: 5px !important;
-        padding: 0.5mm !important;
-    }
-    
-    .print-preview .sticker-footer {
-        height: 6mm !important;
-    }
-
-/* Page indicator for print preview */
-.page-indicator {
-    text-align: center;
-    padding: 10px;
-    color: #666;
-    font-style: italic;
-    border-top: 2px dashed #ccc;
-    margin-top: 20px;
-}
-
-/* Info box styles for no data state */
-.info-box {
-    background: #f8f9fa;
-    border: 1px solid #dee2e6;
-    border-radius: 8px;
-    padding: 20px;
-    margin-top: 20px;
-    text-align: left;
-    max-width: 400px;
-    margin-left: auto;
-    margin-right: auto;
-}
-
-.info-box h4 {
-    color: #495057;
-    margin-bottom: 15px;
-    font-size: 1.1rem;
-}
-
-.info-box ul {
-    list-style: none;
-    padding: 0;
-    margin: 0 0 15px 0;
-}
-
-.info-box li {
-    padding: 5px 0;
-    color: #6c757d;
-    font-size: 14px;
-}
-
-.info-box p {
-    margin: 0;
-    color: #6c757d;
-    font-size: 13px;
-}
-
-/* Status Bar Styles */
-.status-bar {
-    background: #000000;
-    color: white;
-    padding: 12px 20px;
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    z-index: 1000;
-    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s ease;
-}
-
-.status-bar.hidden {
-    transform: translateY(100%);
-}
-
-.status-content {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    max-width: 1400px;
-    margin: 0 auto;
-}
-
-.status-actions {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-    font-weight: 500;
-}
-
-/* Hide status bar when printing */
-@media print {
-    .status-bar {
-        display: none !important;
-    }
-}
-
-/* Adjust container bottom padding when status bar is visible */
-body:not(.print-preview) .container {
-    padding-bottom: 80px;
-}
-
-/* Text-only sticker header - Much larger fonts for fabric roll readability */
-.sticker-header-title {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 8px 10px; /* Balanced padding */
-    background: #000000;
-    color: white;
-    margin: -16px -16px 8px -16px; /* Adjusted for new padding */
-    border-radius: 0;
-    box-shadow: none;
-    border-bottom: 2px solid #000000;
-}
-
-.header-text {
-    font-size: 14px; /* Balanced size */
-    font-weight: 700;
-    letter-spacing: 0.5px;
-}
-
-.header-serial {
-    font-size: 14px; /* Balanced size */
-    background: transparent;
-    padding: 2px 8px;
-    border-radius: 0;
-    border: 1px solid #ffffff;
-    font-weight: 600;
-}
-
-/* Print instructions and accessibility improvements */
-.print-instructions {
-    margin-top: 10px;
-    padding: 8px;
-    background: #f8f8f8;
-    border-left:.3px solid #000;
-    font-size: 0.9rem;
-}
-
-/* Improve keyboard accessibility */
-button:focus {
-    outline: 2px solid #000;
-    outline-offset: 2px;
-}
-
-/* Ensure text is readable */
-.info-box {
-    line-height: 1.4;
+    align-items: center !important;
+    height: 0.5in !important;
+    width: 100% !important;
+    padding: 0.15in 0.2in !important;
+    border-bottom: 1.5px solid #000 !important;
+    print-color-adjust: exact !important;
+    -webkit-print-color-adjust: exact !important;
+  }
+  
+  .header-title { 
+    text-transform: uppercase !important;
+    font-size: 15px !important;
+    font-weight: bold !important;
+    color: white !important;
+  }
+  
+  .header-serial { 
+    font-size: 14px !important; 
+    border: 1px solid white !important;
+    color: white !important;
+    padding: 2px 10px !important; 
+  }
+  
+  .sticker-footer {
+    background-color: #000 !important;
+    height: 0.13in !important;
+    width: 100% !important;
+    margin-top: auto !important;
+    print-color-adjust: exact !important;
+    -webkit-print-color-adjust: exact !important;
+  }
+  
+  .sticker-content {
+    flex: 1 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    padding: 0.1in !important;
+    background: white !important;
+  }
+  
+  .data-label, .data-value {
+    color: #000 !important;
+    visibility: visible !important;
+    display: block !important;
+  }
+  
+  /* Ensure grid is visible */
+  .sticker-data {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr !important;
+    width: 100% !important;
+    height: auto !important;
+    border-left: 1px solid #000 !important;
+    border-top: 1px solid #000 !important;
+    background: white !important;
+  }
+  
+  .data-cell {
+    border-right: 1px solid #000 !important;
+    border-bottom: 1px solid #000 !important;
+    padding: 0.09in 0.08in 0.07in 0.08in !important;
+    min-height: 0.32in !important;
+    color: #000 !important;
+    background: white !important;
+    display: flex !important;
+    flex-direction: column !important;
+  }
+  
+  .data-label {
+    font-size: 11px !important;
+    font-weight: bold !important;
+    margin-bottom: 2px !important;
+    text-transform: uppercase !important;
+    color: black !important;
+  }
+  
+  .data-value {
+    font-size: 13px !important;
+    color: black !important;
+    word-break: break-word !important;
+  }
 }

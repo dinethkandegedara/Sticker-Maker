@@ -8,7 +8,7 @@
     "dev": "electron . --dev",
     "build": "electron-builder",
     "install-deps": "npm install",
-    "package": "electron-packager . sticker-printer --platform=win32 --arch=x64 --overwrite"
+    "package": "electron-builder --win --x64"
   },
   "author": "",
   "license": "MIT",
@@ -29,7 +29,18 @@
     },
     "files": [
       "src/**/*",
-      "node_modules/**/*"
-    ]
+      "*.xlsx",
+      "README.md"
+    ],
+    "win": {
+      "target": ["nsis"],
+      "icon": "src/assets/icon.ico"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true
+    }
   }
 }

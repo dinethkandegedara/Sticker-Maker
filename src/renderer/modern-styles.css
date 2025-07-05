@@ -688,3 +688,71 @@ body::after {
         display: none !important;
     }
 }
+
+/* Troubleshoot button */
+.trouble-btn {
+    background: linear-gradient(135deg, #ff9500, #ff5252);
+    color: var(--light-text);
+    border: none;
+    border-radius: var(--border-radius);
+    padding: 12px 24px;
+    font-size: 16px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    box-shadow: var(--shadow-sm);
+    transition: var(--transition);
+}
+
+.trouble-btn:hover {
+    background: linear-gradient(135deg, #ff5252, #ff9500);
+    box-shadow: var(--shadow-md);
+    transform: translateY(-2px);
+}
+
+.trouble-btn:disabled {
+    background: #cccccc;
+    cursor: not-allowed;
+    box-shadow: none;
+    transform: none;
+}
+
+.trouble-btn i {
+    font-size: 18px;
+}
+
+/* Main Print button (formerly Alternative Print button) */
+.alt-print-btn {
+    background: linear-gradient(135deg, #4caf50, #009688);
+    color: var(--light-text);
+    border: none;
+    border-radius: var(--border-radius);
+    padding: 12px 24px;
+    font-size: 16px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    box-shadow: var(--shadow-sm);
+    transition: var(--transition);
+}
+
+.alt-print-btn:hover {
+    background: linear-gradient(135deg, #009688, #4caf50);
+    box-shadow: var(--shadow-md);
+    transform: translateY(-2px);
+}
+
+.alt-print-btn:disabled {
+    background: #cccccc;
+    cursor: not-allowed;
+    box-shadow: none;
+    transform: none;
+}
+
+.alt-print-btn i {
+    font-size: 18px;
+}

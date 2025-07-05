@@ -7,6 +7,8 @@
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="modern-styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- This meta tag helps ensure proper printing -->
+    <meta name="print-color-adjust" content="exact">
 </head>
 <body>
     <div class="container">
@@ -19,7 +21,7 @@
                 <button id="previewBtn" class="preview-btn" disabled>
                     <i class="fas fa-eye"></i> Print Preview
                 </button>
-                <button id="printBtn" class="print-btn" disabled>
+                <button id="altPrintBtn" class="alt-print-btn" disabled>
                     <i class="fas fa-print"></i> Print Stickers
                 </button>
             </div>
@@ -34,11 +36,11 @@
                     <h4>Fabric Roll Sticker Maker</h4>
                     <ul>
                         <li>Load your Excel file - all 19 columns clearly displayed</li>
-                        <li>Use Print Preview to see the 3-column layout (6 stickers per page)</li>
+                        <li>Use Print Preview to see the 2-column layout (1 sticker per page)</li>
                         <li>Print professional black & white stickers perfect for textile rolls</li>
                     </ul>
-                    <p><small>Features: Optimized for readability with large fonts, high contrast, and clean design</small></p>
-                    <p class="print-instructions"><strong>Print instructions:</strong> Use A4 paper, landscape orientation, actual size (no scaling)</p>
+                    <p><small>Features: Optimized for 4×4 inch paper with large fonts and clean design</small></p>
+                    <p class="print-instructions"><strong>Print instructions:</strong> Use 4×4 inch paper, actual size (no scaling)</p>
                 </div>
             </div>
         </div>
@@ -53,6 +55,6 @@
         </div>
     </div>
 
-    <script src="renderer.js"></script>
+    <script src="new-renderer.js"></script>
 </body>
 </html>

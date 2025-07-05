@@ -103,120 +103,80 @@ class StickerMaker {
     }
     
     createStickers() {
-        // Clear existing stickers
         this.stickersContainer.innerHTML = '';
-        
-        // Iterate over each row from Excel data
-        const stickersPerPage = 6;
-        
-        // Create stickers in groups of 6 for better layout control
-        for (let i = 0; i < this.data.length; i += stickersPerPage) {
-            // Create a wrapper for each page of stickers
-            const pageWrapper = document.createElement('div');
-            pageWrapper.className = 'sticker-page-wrapper';
-            
-            // Add stickers to this page
-            const pageEnd = Math.min(i + stickersPerPage, this.data.length);
-            for (let j = i; j < pageEnd; j++) {
-                const stickerDiv = this.createStickerElement(this.data[j], j);
-                pageWrapper.appendChild(stickerDiv);
-            }
-            
-            this.stickersContainer.appendChild(pageWrapper);
+        for (let i = 0; i < this.data.length; i++) {
+            const stickerPage = document.createElement('div');
+            stickerPage.className = 'sticker-page';
+            const sticker = this.createStickerElement(this.data[i]);
+            stickerPage.appendChild(sticker);
+            this.stickersContainer.appendChild(stickerPage);
         }
-        
-        // Enable the print and preview buttons since we now have stickers
         this.printBtn.disabled = false;
         this.previewBtn.disabled = false;
-        console.log('Print and preview buttons enabled');
-        
-        // Show status bar with sticker count
         this.updateStatusBar();
     }
     
-    // QR code generation removed as per requirements for text-only stickers
-    
-    createStickerElement(rowData, index) {
-        // Create main sticker div
+    createStickerElement(rowData) {
         const sticker = document.createElement('div');
         sticker.className = 'sticker';
-        
-        // Create sticker content
+        // Header
+        const header = document.createElement('div');
+        header.className = 'sticker-header';
+        const headerTitle = document.createElement('div');
+        headerTitle.className = 'header-title';
+        headerTitle.textContent = 'TEXTILE ROLL DATA';
+        const headerSerial = document.createElement('div');
+        headerSerial.className = 'header-serial';
+        headerSerial.textContent = rowData['Serial #'] || '-';
+        header.appendChild(headerTitle);
+        header.appendChild(headerSerial);
+        // Content
         const content = document.createElement('div');
         content.className = 'sticker-content';
-        
-        // Create header with title - text only, no icons
-        const header = document.createElement('div');
-        header.className = 'sticker-header-title';
-        header.innerHTML = `
-            <div class="header-text">TEXTILE ROLL DATA</div>
-            <div class="header-serial">${rowData['Serial #'] || 'N/A'}</div>
-        `;
-        
-        // Create clean 3-column data grid for landscape sticker layout
-        const table = document.createElement('div');
-        table.className = 'sticker-data-table';
-        
-        // All Excel columns in a more logical order - text only for maximum readability
-        const allColumns = [
-            { field: 'Serial #' },
-            { field: 'Vendor Name' },
-            { field: 'Batch' },
-            { field: 'Roll Number' },
-            { field: 'GRN QTY(M/YD)' },
-            { field: 'Fabric Type' },
-            { field: 'Material' },
-            { field: 'Material Description' },
-            { field: 'Inhouse date' },
-            { field: 'PO Number' },
-            { field: 'Invoice Number' },
-            { field: 'Brand' },
-            { field: 'LOT No' },
-            { field: 'UOM' },
-            { field: 'Item' },
-            { field: 'Shade Group' },
-            { field: 'Actual Width' },
-            { field: 'Roll Weight' },
-            { field: 'Storage Bin' }
+        const dataTable = document.createElement('div');
+        dataTable.className = 'sticker-data';
+        const fields = [
+            { label: 'Serial #', field: 'Serial #' },
+            { label: 'Batch', field: 'Batch' },
+            { label: 'Roll Number', field: 'Roll Number' },
+            { label: 'Vendor Name', field: 'Vendor Name' },
+            { label: 'Inhouse date', field: 'Inhouse date' },
+            { label: 'Invoice Number', field: 'Invoice Number' },
+            { label: 'PO Number', field: 'PO Number' },
+            { label: 'GRN QTY(M/YD)', field: 'GRN QTY(M/YD)' },
+            { label: 'Material', field: 'Material' },
+            { label: 'Material Description', field: 'Material Description' },
+            { label: 'Fabric Type', field: 'Fabric Type' },
+            { label: 'LOT No', field: 'LOT No' },
+            { label: 'Brand', field: 'Brand' },
+            { label: 'UOM', field: 'UOM' },
+            { label: 'Item', field: 'Item' },
+            { label: 'Actual Width', field: 'Actual Width' },
+            { label: 'Roll Weight', field: 'Roll Weight' },
+            { label: 'Shade Group', field: 'Shade Group' },
+            { label: 'Storage Bin', field: 'Storage Bin' }
         ];
-        
-        // Important fields that should be highlighted with larger fonts - focused on key identifiers
-        const importantFields = ['Serial #', 'Roll Number', 'Batch', 'Vendor Name'];
-        
-        // Create cells for each field (3 columns layout)
-        allColumns.forEach(column => {
+        fields.forEach(field => {
             const cell = document.createElement('div');
             cell.className = 'data-cell';
-            
-            // Highlight important fields with bolder text
-            if (importantFields.includes(column.field)) {
-                cell.classList.add('important');
-            }
-            
             const label = document.createElement('div');
             label.className = 'data-label';
-            label.textContent = column.field;
-            
+            label.textContent = field.label;
             const value = document.createElement('div');
             value.className = 'data-value';
-            value.textContent = rowData[column.field] || '-';
-            
+            value.textContent = rowData[field.field] || '-';
             cell.appendChild(label);
             cell.appendChild(value);
-            table.appendChild(cell);
+            dataTable.appendChild(cell);
         });
-        
-        // Create black footer
+        content.appendChild(dataTable);
+        // Footer
         const footer = document.createElement('div');
         footer.className = 'sticker-footer';
-        
-        // Assemble the sticker
-        content.appendChild(header);
-        content.appendChild(table);
-        
+        // Assemble
+        sticker.appendChild(header);
         sticker.appendChild(content);
         sticker.appendChild(footer);
-        
         return sticker;
     }
     
@@ -310,26 +270,49 @@ class StickerMaker {
         `;
         document.body.appendChild(overlay);
         
-        // Add a small delay to ensure CSS is applied before printing
+        // Add a delay to ensure CSS is applied before printing
         setTimeout(() => {
-            // Ensure page breaks are properly set up
-            const stickersPerPage = 6; // Updated to 6 stickers per page
-            const pageCount = Math.ceil(this.data.length / stickersPerPage);
-            console.log(`Printing ${pageCount} pages of stickers (${stickersPerPage} per page)...`);
+            console.log(`Printing ${this.data.length} stickers on 4×4 inch paper (1 per page)...`);
             
-            // We're now using page wrappers which handle page breaks automatically
-            // No need for additional spacers
+            // Show print tips
+            this.showTemporaryStatus('For best results, use 4×4 inch paper with no scaling');
             
-            // Force a reflow before printing
-            document.body.style.display = 'none';
-            document.body.offsetHeight; // Force reflow
-            document.body.style.display = '';
+            // Prepare page for printing
+            document.body.classList.add('printing');
+            document.documentElement.classList.add('printing');
             
-            // Remove overlay before printing
-            overlay.remove();
+            // Set up page for printing
+            const style = document.createElement('style');
+            style.id = 'print-style';
+            style.innerHTML = `
+                @page {
+                    size: 4in 4in;
+                    margin: 0.1in;
+                }
+                
+                @media print {
+                    .sticker-page {
+                        page-break-after: always !important;
+                        page-break-before: auto !important;
+                    }
+                }
+            `;
+            document.head.appendChild(style);
             
-            // Call the browser's print function
-            window.print();
+            setTimeout(() => {
+                // Remove overlay
+                overlay.remove();
+                
+                // Print
+                window.print();
+                
+                // Clean up
+                setTimeout(() => {
+                    document.body.classList.remove('printing');
+                    document.documentElement.classList.remove('printing');
+                    document.getElementById('print-style')?.remove();
+                }, 500);
+            }, 200);
         }, 800);
     }
     
@@ -416,11 +399,11 @@ class StickerMaker {
         }
         
         const stickerCount = this.data.length;
-        const stickersPerPage = 6; // 6 stickers per page (3×2 grid)
+        const stickersPerPage = 1; // 1 sticker per page for 4×4 inch paper
         const pageCount = Math.ceil(stickerCount / stickersPerPage);
         
         this.statusText.innerHTML = `<i class="fas fa-check-circle"></i> ${stickerCount} sticker${stickerCount !== 1 ? 's' : ''} loaded and ready to print`;
-        this.stickerCount.innerHTML = `<i class="fas fa-file-alt"></i> ${pageCount} page${pageCount !== 1 ? 's' : ''} (${stickersPerPage} stickers per page)`;
+        this.stickerCount.innerHTML = `<i class="fas fa-file-alt"></i> ${pageCount} page${pageCount !== 1 ? 's' : ''} (4×4 inch pages)`;
         
         // Add an animation when showing the status bar
         this.statusBar.style.transform = 'translateY(100%)';
